@@ -62,18 +62,17 @@ export default async function HomePage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link href="/login">
-              <Button
-                variant="outline"
-                className="border-slate-700 hover:border-slate-600 text-slate-300 hover:text-white text-sm"
-              >
-                Sign In
-              </Button>
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-xl border border-slate-700 hover:border-slate-600 bg-white/[0.03] hover:bg-white/[0.08] text-slate-300 hover:text-white text-sm font-medium transition-all"
+            >
+              Sign In
             </Link>
-            <Link href="/register">
-              <Button className="bg-gradient-to-r from-nexora-primary to-nexora-secondary text-white font-medium text-sm shadow-md shadow-nexora-primary/20">
-                Get Started
-              </Button>
+            <Link
+              href="/register"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-medium text-sm shadow-md shadow-nexora-primary/20 transition-all"
+            >
+              Get Started
             </Link>
           </div>
         </div>
@@ -102,10 +101,11 @@ export default async function HomePage() {
           </p>
 
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/login">
-              <Button className="h-12 px-8 bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-semibold text-base rounded-xl shadow-lg shadow-nexora-primary/30 flex items-center gap-2">
-                Launch Interactive Demo <ArrowRight className="w-4 h-4" />
-              </Button>
+            <Link
+              href="/login"
+              className="h-12 px-8 bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-semibold text-base rounded-xl shadow-lg shadow-nexora-primary/30 inline-flex items-center justify-center gap-2 transition-all active:scale-[0.98]"
+            >
+              Launch Interactive Demo <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
             <a
               href="#features"

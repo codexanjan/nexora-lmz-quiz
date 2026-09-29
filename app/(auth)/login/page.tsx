@@ -1,39 +1,31 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Sparkles, ArrowRight, ShieldCheck, GraduationCap, UserCheck, CheckCircle2 } from "lucide-react";
+import { Sparkles, ArrowRight, ShieldCheck, GraduationCap, UserCheck, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
-function LoginForm() {
-  const searchParams = useSearchParams();
-  const initialEmail = searchParams.get("email") || "student@nexora.demo";
-
-  const [email, setEmail] = useState(initialEmail);
+export default function LoginPage() {
+  const [email, setEmail] = useState("student@nexora.demo");
   const [password, setPassword] = useState("NexoraPass2026!");
-  const [selectedRole, setSelectedRole] = useState<"STUDENT" | "TEACHER" | "ADMIN">(
-    initialEmail.includes("admin")
-      ? "ADMIN"
-      : initialEmail.includes("teacher")
-      ? "TEACHER"
-      : "STUDENT"
-  );
+  const [selectedRole, setSelectedRole] = useState<"STUDENT" | "TEACHER" | "ADMIN">("STUDENT");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [launchingRole, setLaunchingRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const urlEmail = searchParams.get("email");
-    if (urlEmail) {
-      setEmail(urlEmail);
-      if (urlEmail.includes("admin")) setSelectedRole("ADMIN");
-      else if (urlEmail.includes("teacher")) setSelectedRole("TEACHER");
-      else setSelectedRole("STUDENT");
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const urlEmail = params.get("email");
+      if (urlEmail) {
+        setEmail(urlEmail);
+        if (urlEmail.includes("admin")) setSelectedRole("ADMIN");
+        else if (urlEmail.includes("teacher")) setSelectedRole("TEACHER");
+        else setSelectedRole("STUDENT");
+      }
     }
-  }, [searchParams]);
+  }, []);
 
   const selectRole = (role: "STUDENT" | "TEACHER" | "ADMIN") => {
     setSelectedRole(role);
@@ -56,9 +48,10 @@ function LoginForm() {
     const targetEmail = (customEmail || email).trim();
     const targetPass = customPass || password;
 
-    if (!targetEmail) {
-      setError("Please enter your email address.");
+    if (!targetEmail || !targetPass) {
+      setError("Please enter your email and password.");
       setIsLoading(false);
+      setLaunchingRole(null);
       return;
     }
 
@@ -86,6 +79,7 @@ function LoginForm() {
     } catch (err: any) {
       setError(err.message || "Invalid email or password");
       setIsLoading(false);
+      setLaunchingRole(null);
     }
   };
 
@@ -94,153 +88,13 @@ function LoginForm() {
     if (role === "TEACHER") demoEmail = "teacher@nexora.demo";
     if (role === "ADMIN") demoEmail = "admin@nexora.demo";
 
+    setLaunchingRole(role);
     setSelectedRole(role);
     setEmail(demoEmail);
     setPassword("NexoraPass2026!");
     handleLogin(undefined, demoEmail, "NexoraPass2026!");
   };
 
-  return (
-    <Card className="p-8 border-white/10 shadow-2xl bg-nexora-surface/90 backdrop-blur-xl">
-      <div className="mb-6">
-        <h1 className="text-xl font-bold text-text-primary">Sign in to your workspace</h1>
-        <p className="text-xs text-text-secondary mt-1">Select an account below or enter your credentials</p>
-      </div>
-
-      {/* Role Selection Tabs */}
-      <div className="mb-5">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-mono block mb-2">
-          Select Role / Demo Profile
-        </span>
-        <div className="grid grid-cols-3 gap-2">
-          <button
-            type="button"
-            onClick={() => selectRole("STUDENT")}
-            className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
-              selectedRole === "STUDENT"
-                ? "bg-nexora-primary/20 border-nexora-primary text-white shadow-glow-sm"
-                : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            <GraduationCap className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs font-semibold">Student</span>
-            <span className="text-[9px] opacity-70">Anjan</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => selectRole("TEACHER")}
-            className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
-              selectedRole === "TEACHER"
-                ? "bg-nexora-primary/20 border-nexora-primary text-white shadow-glow-sm"
-                : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            <UserCheck className="w-4 h-4 text-cyan-400" />
-            <span className="text-xs font-semibold">Teacher</span>
-            <span className="text-[9px] opacity-70">Prof. Ross</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => selectRole("ADMIN")}
-            className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
-              selectedRole === "ADMIN"
-                ? "bg-nexora-primary/20 border-nexora-primary text-white shadow-glow-sm"
-                : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4 text-indigo-400" />
-            <span className="text-xs font-semibold">Admin</span>
-            <span className="text-[9px] opacity-70">Dr. Vance</span>
-          </button>
-        </div>
-      </div>
-
-      {error && (
-        <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs mb-4">
-          {error}
-        </div>
-      )}
-
-      <form onSubmit={handleLogin} className="space-y-4">
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-            Email Address
-          </label>
-          <input
-            id="login-email"
-            type="email"
-            placeholder="name@nexora.demo"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors"
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-            Password
-          </label>
-          <input
-            id="login-password"
-            type="password"
-            placeholder="••••••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors font-mono"
-          />
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full h-11 bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-semibold text-sm rounded-xl shadow-lg shadow-nexora-primary/20 flex items-center justify-center gap-2 mt-2"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            "Authenticating..."
-          ) : (
-            <>
-              Sign In to Nexora <ArrowRight className="w-4 h-4 ml-1" />
-            </>
-          )}
-        </Button>
-      </form>
-
-      {/* Instant Demo Launchers */}
-      <div className="mt-6 pt-5 border-t border-slate-800 space-y-2">
-        <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono block text-center">
-          Instant 1-Click Launchers (Bypasses Typing)
-        </span>
-        <div className="flex items-center justify-center gap-2">
-          <button
-            type="button"
-            onClick={() => instantLogin("STUDENT")}
-            className="text-xs text-emerald-400 hover:underline px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20"
-          >
-            Launch Student ↗
-          </button>
-          <button
-            type="button"
-            onClick={() => instantLogin("TEACHER")}
-            className="text-xs text-cyan-400 hover:underline px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20"
-          >
-            Launch Teacher ↗
-          </button>
-          <button
-            type="button"
-            onClick={() => instantLogin("ADMIN")}
-            className="text-xs text-indigo-400 hover:underline px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/20"
-          >
-            Launch Admin ↗
-          </button>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
-export default function LoginPage() {
   return (
     <div className="min-h-screen bg-[#07111F] flex flex-col justify-center items-center p-4 relative overflow-hidden">
       {/* Background Ambient Glows */}
@@ -261,9 +115,166 @@ export default function LoginPage() {
       </div>
 
       <div className="w-full max-w-md space-y-6 z-10">
-        <Suspense fallback={<div className="p-8 text-center text-slate-400">Loading workspace...</div>}>
-          <LoginForm />
-        </Suspense>
+        <Card className="p-8 border-white/10 shadow-2xl bg-nexora-surface/90 backdrop-blur-xl">
+          <div className="mb-6">
+            <h1 className="text-xl font-bold text-text-primary">Sign in to your workspace</h1>
+            <p className="text-xs text-text-secondary mt-1">Select a role below or enter your credentials</p>
+          </div>
+
+          {/* Role Selection Tabs */}
+          <div className="mb-5">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-mono block mb-2">
+              Select Demo Profile
+            </span>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                type="button"
+                onClick={() => selectRole("STUDENT")}
+                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                  selectedRole === "STUDENT"
+                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
+                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <GraduationCap className="w-4 h-4 text-emerald-400" />
+                <span className="text-xs font-semibold">Student</span>
+                <span className="text-[9px] opacity-70">Anjan</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => selectRole("TEACHER")}
+                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                  selectedRole === "TEACHER"
+                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
+                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <UserCheck className="w-4 h-4 text-cyan-400" />
+                <span className="text-xs font-semibold">Teacher</span>
+                <span className="text-[9px] opacity-70">Prof. Ross</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => selectRole("ADMIN")}
+                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                  selectedRole === "ADMIN"
+                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
+                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                }`}
+              >
+                <ShieldCheck className="w-4 h-4 text-indigo-400" />
+                <span className="text-xs font-semibold">Admin</span>
+                <span className="text-[9px] opacity-70">Dr. Vance</span>
+              </button>
+            </div>
+          </div>
+
+          {error && (
+            <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs mb-4">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label htmlFor="login-email" className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                Email Address
+              </label>
+              <input
+                id="login-email"
+                type="email"
+                placeholder="name@nexora.demo"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="login-password" className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+                Password
+              </label>
+              <input
+                id="login-password"
+                type="password"
+                placeholder="••••••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors font-mono"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-11 bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-semibold text-sm rounded-xl shadow-lg shadow-nexora-primary/20 flex items-center justify-center gap-2 mt-2"
+              disabled={isLoading}
+            >
+              {isLoading && !launchingRole ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-1" />
+                  Authenticating...
+                </>
+              ) : (
+                <>
+                  Sign In to Nexora <ArrowRight className="w-4 h-4 ml-1" />
+                </>
+              )}
+            </Button>
+          </form>
+
+          {/* Instant 1-Click Launchers */}
+          <div className="mt-6 pt-5 border-t border-slate-800 space-y-2">
+            <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono block text-center">
+              Instant 1-Click Launchers (Bypasses Typing)
+            </span>
+            <div className="flex items-center justify-center gap-2">
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={() => instantLogin("STUDENT")}
+                className="text-xs text-emerald-400 hover:text-emerald-300 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 transition-all hover:bg-emerald-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+              >
+                {launchingRole === "STUDENT" ? (
+                  <>
+                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
+                  </>
+                ) : (
+                  <>Launch Student ↗</>
+                )}
+              </button>
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={() => instantLogin("TEACHER")}
+                className="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 transition-all hover:bg-cyan-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+              >
+                {launchingRole === "TEACHER" ? (
+                  <>
+                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
+                  </>
+                ) : (
+                  <>Launch Teacher ↗</>
+                )}
+              </button>
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={() => instantLogin("ADMIN")}
+                className="text-xs text-indigo-400 hover:text-indigo-300 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/25 transition-all hover:bg-indigo-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+              >
+                {launchingRole === "ADMIN" ? (
+                  <>
+                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
+                  </>
+                ) : (
+                  <>Launch Admin ↗</>
+                )}
+              </button>
+            </div>
+          </div>
+        </Card>
 
         <p className="text-center text-xs text-slate-400">
           Don&apos;t have an account?{" "}

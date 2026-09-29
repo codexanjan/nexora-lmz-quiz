@@ -117,10 +117,12 @@ export async function destroySession(): Promise<void> {
   cookieStore.delete(SESSION_COOKIE_NAME);
 }
 
+import { redirect } from "next/navigation";
+
 export async function requireAuth(): Promise<SessionUser> {
   const user = await getCurrentUser();
   if (!user) {
-    throw new Error("UNAUTHORIZED");
+    redirect("/login");
   }
   return user;
 }
@@ -129,7 +131,9 @@ export async function requireRole(allowedRoles: ("STUDENT" | "TEACHER" | "ADMIN"
   const user = await requireAuth();
   const hasRole = user.memberships.some((m) => allowedRoles.includes(m.role));
   if (!hasRole) {
-    throw new Error("FORBIDDEN");
+    if (user.role === "TEACHER") redirect("/teacher/dashboard");
+    else if (user.role === "ADMIN") redirect("/admin/overview");
+    else redirect("/student/dashboard");
   }
   return user;
 }

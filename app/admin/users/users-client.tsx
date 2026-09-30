@@ -100,24 +100,24 @@ export function UsersClient({ initialUsers, currentAdminId }: UsersClientProps) 
       )}
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between bg-nexora-surface/60 p-3 rounded-xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between bg-surface/80 p-3.5 rounded-2xl border border-white/10 backdrop-blur-xl">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-nexora-elevated/70 border border-slate-700/60 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-nexora-primary"
+            className="w-full bg-elevated/90 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <span className="text-xs text-slate-400">Filter Role:</span>
+          <span className="text-xs text-text-secondary font-medium">Filter Role:</span>
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
-            className="bg-nexora-elevated border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 outline-none cursor-pointer"
+            className="bg-elevated border border-white/10 rounded-xl px-3.5 py-2 text-xs text-text-primary outline-none cursor-pointer focus:ring-2 focus:ring-primary transition-all"
           >
             <option value="ALL">All Roles ({users.length})</option>
             <option value="ADMIN">Admins</option>
@@ -131,7 +131,7 @@ export function UsersClient({ initialUsers, currentAdminId }: UsersClientProps) 
       <GlassCard className="p-0 border-slate-800 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-nexora-elevated text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+            <thead className="bg-elevated text-xs font-semibold text-text-muted uppercase tracking-wider border-b border-white/10">
               <tr>
                 <th className="py-3.5 px-6">User</th>
                 <th className="py-3.5 px-4">Role</th>
@@ -140,16 +140,16 @@ export function UsersClient({ initialUsers, currentAdminId }: UsersClientProps) 
                 <th className="py-3.5 px-6 text-right">Actions / Access</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60">
+            <tbody className="divide-y divide-white/5">
               {filteredUsers.map((user) => {
                 const isSelf = user.id === currentAdminId;
                 const isLoading = loadingUserId === user.id;
 
                 return (
-                  <tr key={user.id} className="hover:bg-slate-800/30 transition-colors">
+                  <tr key={user.id} className="hover:bg-white/[0.02] transition-colors">
                     <td className="py-4 px-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-nexora-primary/20 text-nexora-primary flex items-center justify-center font-bold text-sm border border-nexora-primary/30">
+                        <div className="w-9 h-9 rounded-full bg-primary/20 text-primary-light flex items-center justify-center font-bold text-sm border border-primary/30">
                           {user.name.charAt(0)}
                         </div>
                         <div>
@@ -202,13 +202,13 @@ export function UsersClient({ initialUsers, currentAdminId }: UsersClientProps) 
                             disabled={isLoading}
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                            className="bg-nexora-elevated border border-slate-700/60 rounded-lg px-2.5 py-1 text-xs text-slate-200 outline-none cursor-pointer focus:border-nexora-primary disabled:opacity-50"
+                            className="bg-elevated border border-white/10 rounded-xl px-3 py-1.5 text-xs text-text-primary outline-none cursor-pointer focus:border-primary focus:ring-1 focus:ring-primary disabled:opacity-50 transition-all"
                           >
                             <option value="STUDENT">Student</option>
                             <option value="TEACHER">Teacher</option>
                             <option value="ADMIN">Admin</option>
                           </select>
-                          {isLoading && <RefreshCw className="w-3.5 h-3.5 text-nexora-primary animate-spin" />}
+                          {isLoading && <RefreshCw className="w-3.5 h-3.5 text-primary animate-spin" />}
                         </div>
                       )}
                     </td>

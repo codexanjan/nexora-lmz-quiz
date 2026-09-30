@@ -14,6 +14,8 @@ interface QuestionItem {
   prompt: string;
   points: number;
   difficulty: string;
+  courseId?: string | null;
+  course?: { code: string; title: string } | null;
 }
 
 interface QuizItem {
@@ -51,8 +53,19 @@ export function QuizBuilderClient({
   const [releasePolicy, setReleasePolicy] = useState<"IMMEDIATE" | "AFTER_CLOSE" | "MANUAL">("IMMEDIATE");
   const [gradeRule, setGradeRule] = useState<"HIGHEST" | "LATEST" | "FIRST">("HIGHEST");
 
+  // Question Filter & Quick Select State
+  const [questionSearch, setQuestionSearch] = useState("");
+  const [questionCourseFilter, setQuestionCourseFilter] = useState("ALL");
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const filteredQuestions = availableQuestions.filter((q) => {
+    if (questionCourseFilter === "CURRENT" && q.courseId !== courseId) return false;
+    if (questionCourseFilter === "GENERAL" && q.courseId) return false;
+    if (questionSearch && !q.prompt.toLowerCase().includes(questionSearch.toLowerCase())) return false;
+    return true;
+  });
 
   const toggleQuestion = (qId: string) => {
     if (selectedQuestionIds.includes(qId)) {
@@ -60,6 +73,30 @@ export function QuizBuilderClient({
     } else {
       setSelectedQuestionIds([...selectedQuestionIds, qId]);
     }
+  };
+
+  const handleSelectCount = (count: number) => {
+    const idsToSelect = filteredQuestions.slice(0, count).map((q) => q.id);
+    setSelectedQuestionIds(Array.from(new Set([...selectedQuestionIds, ...idsToSelect])));
+  };
+
+  const handleSelectExactCount = (count: number) => {
+    const idsToSelect = filteredQuestions.slice(0, count).map((q) => q.id);
+    setSelectedQuestionIds(idsToSelect);
+  };
+
+  const handleSelectRandom = (count: number) => {
+    const shuffled = [...filteredQuestions].sort(() => 0.5 - Math.random());
+    const idsToSelect = shuffled.slice(0, count).map((q) => q.id);
+    setSelectedQuestionIds(idsToSelect);
+  };
+
+  const handleSelectAll = () => {
+    setSelectedQuestionIds(filteredQuestions.map((q) => q.id));
+  };
+
+  const handleClearAll = () => {
+    setSelectedQuestionIds([]);
   };
 
   const totalPoints = availableQuestions
@@ -289,42 +326,135 @@ export function QuizBuilderClient({
           </div>
 
           {/* Question Bank Selection */}
-          <div className="space-y-2 pt-2 border-t border-white/10">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-text-primary">
-                Select Questions ({selectedQuestionIds.length} Selected • {totalPoints} Total PTS)
-              </span>
-              <span className="text-[11px] text-text-muted">From Question Bank</span>
+          <div className="space-y-3 pt-3 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="text-xs font-bold text-text-primary block">
+                  Select Questions ({selectedQuestionIds.length} Selected • {totalPoints} Total PTS)
+                </span>
+                <span className="text-[11px] text-text-muted">
+                  Pick individually or use quick preset counters below
+                </span>
+              </div>
+
+              {/* Quick Preset Buttons (10 Questions, 20 Questions, All, Clear) */}
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => handleSelectExactCount(10)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-semibold border border-primary/50 bg-primary/15 hover:bg-primary/25 text-primary-light transition-all cursor-pointer shadow-sm flex items-center gap-1"
+                >
+                  <span>10 Questions</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSelectExactCount(20)}
+                  className="px-2.5 py-1 rounded-lg text-xs font-semibold border border-secondary/50 bg-secondary/15 hover:bg-secondary/25 text-secondary transition-all cursor-pointer shadow-sm flex items-center gap-1"
+                >
+                  <span>20 Questions</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSelectRandom(10)}
+                  title="Pick 10 randomized questions"
+                  className="px-2 py-1 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-text-secondary transition-all cursor-pointer"
+                >
+                  🎲 10 Random
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSelectRandom(20)}
+                  title="Pick 20 randomized questions"
+                  className="px-2 py-1 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-text-secondary transition-all cursor-pointer"
+                >
+                  🎲 20 Random
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSelectAll}
+                  className="px-2 py-1 rounded-lg text-xs font-medium border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-text-secondary transition-all cursor-pointer"
+                >
+                  All ({filteredQuestions.length})
+                </button>
+                {selectedQuestionIds.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleClearAll}
+                    className="px-2 py-1 rounded-lg text-xs font-medium border border-critical/30 bg-critical/10 hover:bg-critical/20 text-critical transition-all cursor-pointer"
+                  >
+                    Clear ({selectedQuestionIds.length})
+                  </button>
+                )}
+              </div>
             </div>
 
-            <div className="max-h-56 overflow-y-auto space-y-2 p-1 border border-white/10 rounded-xl bg-surface/50">
-              {availableQuestions.length === 0 ? (
-                <p className="text-center py-6 text-xs text-text-muted">No questions available in question bank.</p>
+            {/* Filter and Search within Quiz Builder */}
+            <div className="flex flex-col sm:flex-row items-center gap-2 pt-1">
+              <input
+                type="text"
+                placeholder="Filter questions by keywords..."
+                value={questionSearch}
+                onChange={(e) => setQuestionSearch(e.target.value)}
+                className="flex-1 h-9 rounded-xl border border-white/10 bg-surface/90 px-3 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-1 focus:ring-primary w-full"
+              />
+              <select
+                value={questionCourseFilter}
+                onChange={(e) => setQuestionCourseFilter(e.target.value)}
+                className="h-9 px-3 rounded-xl border border-white/10 bg-surface/90 text-xs text-text-primary focus:outline-none cursor-pointer w-full sm:w-auto"
+              >
+                <option value="ALL">All Sources (Course & General Bank)</option>
+                <option value="CURRENT">Selected Course Only</option>
+                <option value="GENERAL">General (No Course Assigned)</option>
+              </select>
+            </div>
+
+            <div className="max-h-60 overflow-y-auto space-y-2 p-1.5 border border-white/10 rounded-2xl bg-surface/60 backdrop-blur-md">
+              {filteredQuestions.length === 0 ? (
+                <div className="text-center py-8 text-xs text-text-muted">
+                  No questions match your filter. You can select "All Sources" to include general question bank items.
+                </div>
               ) : (
-                availableQuestions.map((q) => {
+                filteredQuestions.map((q) => {
                   const isChecked = selectedQuestionIds.includes(q.id);
                   return (
                     <label
                       key={q.id}
                       onClick={() => toggleQuestion(q.id)}
-                      className={`flex items-start gap-3 p-3 rounded-lg border text-xs cursor-pointer transition-colors ${
+                      className={`flex items-start gap-3 p-3 rounded-xl border text-xs cursor-pointer transition-all ${
                         isChecked
-                          ? "bg-primary/20 border-primary text-white"
-                          : "bg-surface border-white/5 text-text-secondary hover:bg-white/[0.04]"
+                          ? "bg-primary/20 border-primary text-white shadow-sm ring-1 ring-primary/40"
+                          : "bg-surface/80 border-white/5 text-text-secondary hover:bg-white/[0.04] hover:border-white/10"
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         readOnly
-                        className="mt-0.5 accent-primary"
+                        className="mt-1 accent-primary w-4 h-4 cursor-pointer"
                       />
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-[9px]">{q.type.replace("_", " ")}</Badge>
-                          <span className="font-mono text-text-muted text-[10px]">{q.points} PTS</span>
+                      <div className="flex-1 space-y-1.5">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge variant="outline" className="text-[9px] py-0">{q.type.replace("_", " ")}</Badge>
+                          <Badge
+                            variant={
+                              q.difficulty === "EASY" ? "success" : q.difficulty === "HARD" ? "critical" : "warning"
+                            }
+                            className="text-[9px] py-0"
+                          >
+                            {q.difficulty}
+                          </Badge>
+                          {q.course ? (
+                            <span className="px-1.5 py-0.5 rounded bg-white/[0.05] border border-white/10 text-[9px] font-mono text-cyan-400">
+                              {q.course.code}
+                            </span>
+                          ) : (
+                            <span className="px-1.5 py-0.5 rounded bg-white/[0.05] border border-dashed border-white/10 text-[9px] font-mono text-text-muted">
+                              General Bank
+                            </span>
+                          )}
+                          <span className="font-mono text-text-muted text-[10px] ml-auto">{q.points} PTS</span>
                         </div>
-                        <p className="line-clamp-2 leading-relaxed">{q.prompt}</p>
+                        <p className="line-clamp-2 leading-relaxed text-text-primary text-[11px] font-medium">{q.prompt}</p>
                       </div>
                     </label>
                   );

@@ -18,7 +18,7 @@ export function CreateQuestionModal({
   courses: { id: string; title: string; code: string }[];
 }) {
   const router = useRouter();
-  const [courseId, setCourseId] = useState(courses[0]?.id || "");
+  const [courseId, setCourseId] = useState("");
   const [type, setType] = useState<"SINGLE_CHOICE" | "MULTIPLE_SELECT" | "TRUE_FALSE" | "SHORT_ANSWER" | "ESSAY">("SINGLE_CHOICE");
   const [prompt, setPrompt] = useState("");
   const [points, setPoints] = useState("2.0");
@@ -150,14 +150,18 @@ export function CreateQuestionModal({
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-text-secondary uppercase tracking-wider mb-1">
-              Course Association
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-text-secondary uppercase tracking-wider">
+                Course Association
+              </label>
+              <span className="text-[10px] text-text-muted font-mono">(Optional)</span>
+            </div>
             <select
               value={courseId}
               onChange={(e) => setCourseId(e.target.value)}
               className="flex h-11 w-full rounded-xl border border-white/10 bg-surface/80 px-3.5 py-2 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary"
             >
+              <option value="">No Course / General Question Bank</option>
               {courses.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.code} — {c.title}

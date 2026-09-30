@@ -158,30 +158,30 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
       <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
         <button
           onClick={() => setActiveTab("account")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             activeTab === "account"
-              ? "bg-nexora-primary/10 text-nexora-primary border border-nexora-primary/30"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-primary/15 text-primary-light border border-primary/40 shadow-sm"
+              : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
           }`}
         >
           <User className="w-4 h-4" /> Account Details
         </button>
         <button
           onClick={() => setActiveTab("notifications")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             activeTab === "notifications"
-              ? "bg-nexora-primary/10 text-nexora-primary border border-nexora-primary/30"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-primary/15 text-primary-light border border-primary/40 shadow-sm"
+              : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
           }`}
         >
           <Bell className="w-4 h-4" /> Notifications
         </button>
         <button
           onClick={() => setActiveTab("security")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
             activeTab === "security"
-              ? "bg-nexora-primary/10 text-nexora-primary border border-nexora-primary/30"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-primary/15 text-primary-light border border-primary/40 shadow-sm"
+              : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
           }`}
         >
           <Shield className="w-4 h-4" /> Security & Sessions
@@ -190,19 +190,19 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
 
       {/* Tab: Account Details */}
       {activeTab === "account" && (
-        <GlassCard className="p-6 border-slate-800 space-y-6">
+        <GlassCard className="p-6 border-white/10 space-y-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-nexora-primary/20 text-nexora-primary flex items-center justify-center font-bold text-2xl border border-nexora-primary/40">
+            <div className="w-16 h-16 rounded-full bg-primary/20 text-primary-light flex items-center justify-center font-bold text-2xl border border-primary/40">
               {user.name.charAt(0)}
             </div>
             <div>
               <h2 className="text-xl font-bold text-slate-100">{user.name}</h2>
               <p className="text-sm text-slate-400">{user.email}</p>
               <div className="flex items-center gap-2 mt-2">
-                <Badge className="bg-nexora-primary/10 text-nexora-primary border-nexora-primary/30">
+                <Badge className="bg-primary/10 text-primary-light border-primary/30">
                   {user.activeRole}
                 </Badge>
-                <Badge variant="outline" className="text-slate-400 border-slate-700">
+                <Badge variant="outline" className="text-slate-400 border-white/10">
                   {user.organizationName}
                 </Badge>
               </div>
@@ -218,7 +218,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="bg-nexora-elevated border-slate-700 text-slate-200"
+                className="bg-elevated border-white/10 text-text-primary"
               />
             </div>
 
@@ -229,7 +229,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
               <Input
                 value={user.email}
                 disabled
-                className="bg-nexora-elevated/40 border-slate-800 text-slate-500 cursor-not-allowed"
+                className="bg-elevated/40 border-white/5 text-text-muted cursor-not-allowed"
               />
               <p className="text-[11px] text-slate-500 mt-1">
                 Email address is verified and tied to your institutional organization account.
@@ -243,7 +243,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="w-full bg-nexora-elevated border border-slate-700 rounded-lg px-3.5 py-2.5 text-sm text-slate-200 outline-none focus:border-nexora-primary"
+                className="w-full bg-elevated border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-text-primary outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
               >
                 <option value="UTC">UTC (Coordinated Universal Time)</option>
                 <option value="America/New_York">America/New_York (EST/EDT)</option>
@@ -264,7 +264,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
               <Button
                 type="submit"
                 disabled={isSaving}
-                className="bg-nexora-primary hover:bg-nexora-primary/90 text-white"
+                className="bg-primary hover:bg-primary-hover text-white"
               >
                 <Save className="w-4 h-4 mr-2" />
                 {isSaving ? "Saving..." : "Save Changes"}
@@ -276,7 +276,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
 
       {/* Tab: Notifications */}
       {activeTab === "notifications" && (
-        <GlassCard className="p-6 border-slate-800 space-y-6">
+        <GlassCard className="p-6 border-white/10 space-y-6">
           <div>
             <h2 className="text-lg font-bold text-slate-100">
               Notification Preferences
@@ -286,7 +286,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
             </p>
           </div>
 
-          <div className="space-y-4 divide-y divide-slate-800/80">
+          <div className="space-y-4 divide-y divide-white/5">
             <div className="flex items-center justify-between pt-3">
               <div>
                 <h4 className="text-sm font-semibold text-slate-200">
@@ -300,7 +300,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                 type="checkbox"
                 checked={quizReminders}
                 onChange={(e) => setQuizReminders(e.target.checked)}
-                className="w-4 h-4 accent-nexora-primary cursor-pointer"
+                className="w-4 h-4 accent-primary cursor-pointer"
               />
             </div>
 
@@ -317,7 +317,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                 type="checkbox"
                 checked={resultReleases}
                 onChange={(e) => setResultReleases(e.target.checked)}
-                className="w-4 h-4 accent-nexora-primary cursor-pointer"
+                className="w-4 h-4 accent-primary cursor-pointer"
               />
             </div>
 
@@ -334,7 +334,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                 type="checkbox"
                 checked={feedbackAlerts}
                 onChange={(e) => setFeedbackAlerts(e.target.checked)}
-                className="w-4 h-4 accent-nexora-primary cursor-pointer"
+                className="w-4 h-4 accent-primary cursor-pointer"
               />
             </div>
 
@@ -351,16 +351,16 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                 type="checkbox"
                 checked={emailDigest}
                 onChange={(e) => setEmailDigest(e.target.checked)}
-                className="w-4 h-4 accent-nexora-primary cursor-pointer"
+                className="w-4 h-4 accent-primary cursor-pointer"
               />
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-800">
+          <div className="pt-4 border-t border-white/10">
             <Button
               onClick={handleUpdateProfile}
               disabled={isSaving}
-              className="bg-nexora-primary hover:bg-nexora-primary/90 text-white"
+              className="bg-primary hover:bg-primary-hover text-white"
             >
               <Save className="w-4 h-4 mr-2" />
               {isSaving ? "Saving..." : "Save Preferences"}
@@ -392,7 +392,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                   onChange={(e) => setCurrentPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="bg-nexora-elevated border-slate-700 text-slate-200"
+                  className="bg-elevated border-white/10 text-text-primary"
                 />
               </div>
 
@@ -406,7 +406,7 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="bg-nexora-elevated border-slate-700 text-slate-200"
+                  className="bg-elevated border-white/10 text-text-primary"
                 />
               </div>
 
@@ -420,14 +420,14 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="bg-nexora-elevated border-slate-700 text-slate-200"
+                  className="bg-elevated border-white/10 text-text-primary"
                 />
               </div>
 
               <Button
                 type="submit"
                 disabled={isChangingPass}
-                className="bg-nexora-primary hover:bg-nexora-primary/90 text-white"
+                className="bg-primary hover:bg-primary-hover text-white"
               >
                 <KeyRound className="w-4 h-4 mr-2" />
                 {isChangingPass ? "Updating..." : "Update Password"}
@@ -459,10 +459,10 @@ export function ProfileClient({ user, sessions }: ProfileClientProps) {
               {sessions.map((sess, idx) => (
                 <div
                   key={sess.id}
-                  className="p-3.5 rounded-xl bg-nexora-elevated/40 border border-slate-800 flex items-center justify-between gap-3 text-xs"
+                  className="p-3.5 rounded-xl bg-elevated/40 border border-white/10 flex items-center justify-between gap-3 text-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-nexora-primary/10 text-nexora-primary">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary-light">
                       <Laptop className="w-4 h-4" />
                     </div>
                     <div>

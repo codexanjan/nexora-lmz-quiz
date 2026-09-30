@@ -46,6 +46,13 @@ const config: Config = {
           secondary: "#A9B5C7",
           muted: "#6F7D91",
         },
+        nexora: {
+          bg: "#07111F",
+          surface: "#0C1828",
+          elevated: "#102238",
+          primary: "#6C63FF",
+          secondary: "#35C6FF",
+        },
         border: {
           DEFAULT: "rgba(255, 255, 255, 0.08)",
           subtle: "rgba(255, 255, 255, 0.04)",

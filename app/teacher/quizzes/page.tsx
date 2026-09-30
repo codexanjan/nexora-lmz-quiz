@@ -49,7 +49,15 @@ export default async function TeacherQuizzesPage() {
 
   const availableQuestions = await prisma.question.findMany({
     where: { organizationId: orgId },
-    select: { id: true, type: true, prompt: true, points: true, difficulty: true },
+    select: {
+      id: true,
+      type: true,
+      prompt: true,
+      points: true,
+      difficulty: true,
+      courseId: true,
+      course: { select: { code: true, title: true } },
+    },
     orderBy: { createdAt: "desc" },
   });
 

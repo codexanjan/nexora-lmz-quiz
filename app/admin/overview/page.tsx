@@ -92,7 +92,7 @@ export default async function AdminOverviewPage() {
               <h1 className="text-3xl font-display font-bold text-slate-100">
                 System Administration
               </h1>
-              <Badge className="bg-nexora-primary/10 text-nexora-primary border-nexora-primary/30">
+              <Badge className="bg-primary/10 text-primary-light border-primary/30">
                 Platform Root
               </Badge>
             </div>
@@ -103,7 +103,7 @@ export default async function AdminOverviewPage() {
 
           <div className="flex items-center gap-3">
             <Link href="/admin/users">
-              <Button className="bg-nexora-primary hover:bg-nexora-primary/90 text-white text-sm">
+              <Button className="bg-primary hover:bg-primary-hover text-white text-sm">
                 <Users className="w-4 h-4 mr-2" /> Manage Users
               </Button>
             </Link>
@@ -228,7 +228,7 @@ export default async function AdminOverviewPage() {
                 {recentAlerts.map((alert) => (
                   <div
                     key={alert.id}
-                    className="p-3.5 rounded-xl bg-nexora-elevated/40 border border-slate-800 flex items-start justify-between gap-3"
+                    className="p-3.5 rounded-xl bg-elevated/40 border border-white/10 flex items-start justify-between gap-3"
                   >
                     <div>
                       <div className="flex items-center gap-2 mb-1">
@@ -272,17 +272,17 @@ export default async function AdminOverviewPage() {
           </GlassCard>
 
           {/* Recent Audit Trail */}
-          <GlassCard className="p-6 border-slate-800">
+          <GlassCard className="p-6 border-white/10">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-nexora-primary" />
+                <FileText className="w-5 h-5 text-primary" />
                 <h2 className="text-lg font-display font-bold text-slate-100">
                   Security & Audit Trail
                 </h2>
               </div>
               <Link
                 href="/admin/audit-log"
-                className="text-xs text-nexora-primary hover:underline flex items-center gap-1"
+                className="text-xs text-primary-light hover:underline flex items-center gap-1"
               >
                 View all logs →
               </Link>
@@ -292,10 +292,10 @@ export default async function AdminOverviewPage() {
               {recentAuditLogs.map((log) => (
                 <div
                   key={log.id}
-                  className="p-3 rounded-xl bg-nexora-elevated/40 border border-slate-800 flex items-center justify-between gap-3 text-xs"
+                  className="p-3 rounded-xl bg-elevated/40 border border-white/10 flex items-center justify-between gap-3 text-xs"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-nexora-primary" />
+                    <div className="w-2 h-2 rounded-full bg-primary" />
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-mono font-semibold text-slate-200">

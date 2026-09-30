@@ -76,25 +76,25 @@ export function AuditLogClient({ initialLogs }: AuditLogClientProps) {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between bg-nexora-surface/60 p-3 rounded-xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between bg-surface/80 p-3.5 rounded-2xl border border-white/10 backdrop-blur-xl">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search action, actor, or ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-nexora-elevated/70 border border-slate-700/60 rounded-lg pl-9 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 outline-none focus:border-nexora-primary"
+            className="w-full bg-elevated/90 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-sm text-text-primary placeholder:text-text-muted outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <Filter className="w-3.5 h-3.5 text-slate-400" />
-          <span className="text-xs text-slate-400">Action:</span>
+          <Filter className="w-3.5 h-3.5 text-text-muted" />
+          <span className="text-xs text-text-secondary font-medium">Action:</span>
           <select
             value={actionFilter}
             onChange={(e) => setActionFilter(e.target.value)}
-            className="bg-nexora-elevated border border-slate-700/60 rounded-lg px-3 py-1.5 text-xs text-slate-200 outline-none cursor-pointer"
+            className="bg-elevated border border-white/10 rounded-xl px-3.5 py-2 text-xs text-text-primary outline-none cursor-pointer focus:ring-2 focus:ring-primary transition-all"
           >
             <option value="ALL">All Actions ({logs.length})</option>
             {actions.map((act) => (
@@ -107,10 +107,10 @@ export function AuditLogClient({ initialLogs }: AuditLogClientProps) {
       </div>
 
       {/* Audit Log Table */}
-      <GlassCard className="p-0 border-slate-800 overflow-hidden">
+      <GlassCard className="p-0 border-white/10 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-slate-300">
-            <thead className="bg-nexora-elevated text-xs font-semibold text-slate-400 uppercase tracking-wider border-b border-slate-800">
+          <table className="w-full text-left text-sm text-text-secondary">
+            <thead className="bg-elevated text-xs font-semibold text-text-muted uppercase tracking-wider border-b border-white/10">
               <tr>
                 <th className="py-3.5 px-6">Timestamp (UTC)</th>
                 <th className="py-3.5 px-4">Action</th>
@@ -168,7 +168,7 @@ export function AuditLogClient({ initialLogs }: AuditLogClientProps) {
                           onClick={() =>
                             setExpandedLogId(isExpanded ? null : log.id)
                           }
-                          className="inline-flex items-center gap-1 text-xs text-nexora-secondary hover:underline cursor-pointer"
+                          className="inline-flex items-center gap-1 text-xs text-secondary hover:underline cursor-pointer"
                         >
                           <FileCode className="w-3.5 h-3.5" />
                           <span>{isExpanded ? "Hide" : "Inspect"}</span>
@@ -184,7 +184,7 @@ export function AuditLogClient({ initialLogs }: AuditLogClientProps) {
 
                       {/* Expandable JSON Payload Drawer */}
                       {isExpanded && parsedPayload && (
-                        <div className="mt-3 text-left p-3 rounded-lg bg-nexora-surface border border-slate-700/80 font-mono text-xs text-slate-300 overflow-x-auto">
+                        <div className="mt-3 text-left p-3 rounded-xl bg-surface border border-white/10 font-mono text-xs text-slate-300 overflow-x-auto">
                           <pre className="text-[11px] text-cyan-300 leading-tight">
                             {JSON.stringify(parsedPayload, null, 2)}
                           </pre>

@@ -144,21 +144,21 @@ export function ReportsClient({
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-2 bg-nexora-surface border border-slate-700/60 rounded-xl px-3 py-1.5">
-            <Filter className="w-4 h-4 text-slate-400" />
+          <div className="flex items-center gap-2 bg-surface/80 border border-white/10 rounded-xl px-3.5 py-2">
+            <Filter className="w-4 h-4 text-text-muted" />
             <select
               value={courseFilter}
               onChange={(e) => handleCourseChange(e.target.value)}
-              className="bg-transparent text-sm text-slate-200 outline-none cursor-pointer"
+              className="bg-transparent text-sm text-text-primary outline-none cursor-pointer"
             >
-              <option value="ALL" className="bg-nexora-surface text-slate-200">
+              <option value="ALL" className="bg-surface text-text-primary">
                 All Assigned Courses
               </option>
               {courses.map((c) => (
                 <option
                   key={c.id}
                   value={c.id}
-                  className="bg-nexora-surface text-slate-200"
+                  className="bg-surface text-text-primary"
                 >
                   {c.code}: {c.title}
                 </option>
@@ -169,7 +169,7 @@ export function ReportsClient({
           <Button
             onClick={handleExportCsv}
             disabled={isExporting}
-            className="flex items-center gap-2 bg-nexora-elevated hover:bg-nexora-primary/20 text-slate-200 border border-slate-700/60 transition-all text-sm"
+            className="flex items-center gap-2 bg-elevated hover:bg-white/[0.08] text-text-primary border border-white/10 transition-all text-sm"
           >
             <Download className="w-4 h-4" />
             {isExporting ? "Exporting..." : "Export CSV"}
@@ -265,7 +265,7 @@ export function ReportsClient({
                 <h2 className="text-lg font-display font-bold text-slate-100">
                   GapMap™ Concept Analysis
                 </h2>
-                <Badge variant="outline" className="text-xs text-nexora-primary border-nexora-primary/40">
+                <Badge variant="outline" className="text-xs text-primary-light border-primary/40">
                   Topic Diagnostic
                 </Badge>
               </div>
@@ -337,7 +337,7 @@ export function ReportsClient({
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left text-slate-300">
-                <thead className="bg-nexora-elevated/50 text-slate-400">
+                <thead className="bg-elevated/50 text-text-muted">
                   <tr>
                     <th className="p-2 rounded-l">Concept / Tag</th>
                     <th className="p-2">Responses</th>
@@ -488,7 +488,7 @@ export function ReportsClient({
             {initialPulse.atRiskStudents.map((student, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-xl bg-nexora-elevated/40 border border-slate-800 flex flex-col justify-between"
+                className="p-4 rounded-xl bg-elevated/40 border border-white/10 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2 mb-2">
@@ -526,10 +526,10 @@ export function ReportsClient({
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
                   <Link
                     href={`/teacher/gradebook?studentId=${student.studentId}`}
-                    className="text-xs text-nexora-secondary hover:underline flex items-center gap-1"
+                    className="text-xs text-secondary hover:underline flex items-center gap-1"
                   >
                     View in Gradebook →
                   </Link>
@@ -538,7 +538,7 @@ export function ReportsClient({
             ))}
           </div>
         ) : (
-          <div className="p-8 text-center bg-nexora-elevated/20 rounded-xl border border-slate-800/80">
+          <div className="p-8 text-center bg-elevated/20 rounded-2xl border border-white/10">
             <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2" />
             <p className="text-sm font-medium text-slate-300">
               All enrolled students are progressing on track

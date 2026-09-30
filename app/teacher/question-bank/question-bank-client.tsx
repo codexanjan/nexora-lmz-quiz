@@ -32,10 +32,13 @@ export function QuestionBankClient({
   const [search, setSearch] = useState("");
   const [selectedType, setSelectedType] = useState("ALL");
   const [selectedDifficulty, setSelectedDifficulty] = useState("ALL");
+  const [selectedCourse, setSelectedCourse] = useState("ALL");
 
   const filtered = questions.filter((q) => {
     if (selectedType !== "ALL" && q.type !== selectedType) return false;
     if (selectedDifficulty !== "ALL" && q.difficulty !== selectedDifficulty) return false;
+    if (selectedCourse === "GENERAL" && q.course) return false;
+    if (selectedCourse !== "ALL" && selectedCourse !== "GENERAL" && q.course?.code !== selectedCourse) return false;
     if (search && !q.prompt.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
@@ -57,9 +60,23 @@ export function QuestionBankClient({
           </div>
 
           <select
+            value={selectedCourse}
+            onChange={(e) => setSelectedCourse(e.target.value)}
+            className="h-10 px-3 rounded-xl border border-white/10 bg-surface text-text-primary text-xs focus:outline-none cursor-pointer"
+          >
+            <option value="ALL">All Courses & General</option>
+            <option value="GENERAL">General (No Course Assigned)</option>
+            {courses.map((c) => (
+              <option key={c.id} value={c.code}>
+                {c.code} — {c.title}
+              </option>
+            ))}
+          </select>
+
+          <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="h-10 px-3 rounded-xl border border-white/10 bg-surface text-text-primary text-xs focus:outline-none"
+            className="h-10 px-3 rounded-xl border border-white/10 bg-surface text-text-primary text-xs focus:outline-none cursor-pointer"
           >
             <option value="ALL">All Question Types</option>
             <option value="SINGLE_CHOICE">Single Choice</option>
@@ -72,7 +89,7 @@ export function QuestionBankClient({
           <select
             value={selectedDifficulty}
             onChange={(e) => setSelectedDifficulty(e.target.value)}
-            className="h-10 px-3 rounded-xl border border-white/10 bg-surface text-text-primary text-xs focus:outline-none"
+            className="h-10 px-3 rounded-xl border border-white/10 bg-surface text-text-primary text-xs focus:outline-none cursor-pointer"
           >
             <option value="ALL">All Difficulties</option>
             <option value="EASY">Easy</option>
@@ -116,7 +133,13 @@ export function QuestionBankClient({
                     >
                       {q.difficulty}
                     </Badge>
-                    {q.course && <Badge variant="outline">{q.course.code}</Badge>}
+                    {q.course ? (
+                      <Badge variant="outline">{q.course.code}</Badge>
+                    ) : (
+                      <Badge variant="outline" className="border-dashed text-text-muted">
+                        General (No Course)
+                      </Badge>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3 font-mono text-text-muted text-[11px]">

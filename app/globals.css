@@ -37,6 +37,22 @@
     overflow-x: hidden;
   }
 
+  /* Form controls dark mode protection */
+  input, select, textarea {
+    color-scheme: dark;
+    background-color: #0C1828;
+    color: #F7F9FC;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: #6F7D91;
+  }
+
+  option {
+    background-color: #0C1828;
+    color: #F7F9FC;
+  }
+
   /* Custom subtle scrollbar */
   ::-webkit-scrollbar {
     width: 6px;

@@ -7,7 +7,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Plus, Users, BookOpen, Key, ArrowRight, Sparkles } from "lucide-react";
+import { Plus, Users, BookOpen, Key, ArrowRight } from "lucide-react";
 import { PublishCourseButton } from "./publish-button";
 
 export const dynamic = "force-dynamic";

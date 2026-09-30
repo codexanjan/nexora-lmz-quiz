@@ -9,7 +9,8 @@ import {
   HelpCircle,
   FileCheck2,
   GraduationCap,
-  Sparkles,
+  Activity,
+  TrendingUp,
   Layers,
   BarChart3,
   Users,
@@ -51,7 +52,7 @@ export function CommandPalette({ isOpen, onClose, role = "STUDENT" }: CommandPal
     { label: "Browse Enrolled Courses", href: "/student/courses", icon: BookOpen, roles: ["STUDENT"] },
     { label: "Upcoming & Active Quizzes", href: "/student/quizzes", icon: HelpCircle, roles: ["STUDENT"] },
     { label: "Assessment Results & Feedback", href: "/student/results", icon: FileCheck2, roles: ["STUDENT"] },
-    { label: "Learning Pulse™ & ReviewLoop™", href: "/student/learning-pulse", icon: Sparkles, roles: ["STUDENT"] },
+    { label: "Learning Pulse™ & ReviewLoop™", href: "/student/learning-pulse", icon: Activity, roles: ["STUDENT"] },
 
     // Teacher
     { label: "Manage Courses", href: "/teacher/courses", icon: BookOpen, roles: ["TEACHER", "ADMIN"] },
@@ -60,7 +61,7 @@ export function CommandPalette({ isOpen, onClose, role = "STUDENT" }: CommandPal
     { label: "Quiz Builder & Versions", href: "/teacher/quizzes", icon: FileCheck2, roles: ["TEACHER", "ADMIN"] },
     { label: "Submissions & Grading Queue", href: "/teacher/submissions", icon: GraduationCap, roles: ["TEACHER", "ADMIN"] },
     { label: "Course Gradebook & CSV Export", href: "/teacher/gradebook", icon: BarChart3, roles: ["TEACHER", "ADMIN"] },
-    { label: "Class Pulse & GapMap™ Analytics", href: "/teacher/reports", icon: Sparkles, roles: ["TEACHER", "ADMIN"] },
+    { label: "Class Pulse & GapMap™ Analytics", href: "/teacher/reports", icon: TrendingUp, roles: ["TEACHER", "ADMIN"] },
 
     // Admin
     { label: "User Management & Role Assignment", href: "/admin/users", icon: Users, roles: ["ADMIN"] },

@@ -8,7 +8,8 @@ import {
   BookOpen,
   HelpCircle,
   FileCheck2,
-  Sparkles,
+  Activity,
+  TrendingUp,
   Users,
   GraduationCap,
   BarChart3,
@@ -39,7 +40,7 @@ export function Sidebar({ role = "STUDENT", className = "" }: SidebarProps) {
     { label: "Courses", href: "/student/courses", icon: BookOpen },
     { label: "Quizzes", href: "/student/quizzes", icon: HelpCircle },
     { label: "Results & Feedback", href: "/student/results", icon: FileCheck2 },
-    { label: "Learning Pulse™", href: "/student/learning-pulse", icon: Sparkles, badge: "Pulse" },
+    { label: "Learning Pulse™", href: "/student/learning-pulse", icon: Activity, badge: "Pulse" },
     { label: "Profile & Sessions", href: "/profile", icon: Settings },
   ];
 
@@ -50,7 +51,7 @@ export function Sidebar({ role = "STUDENT", className = "" }: SidebarProps) {
     { label: "Quiz Builder", href: "/teacher/quizzes", icon: Layers },
     { label: "Grading Queue", href: "/teacher/submissions", icon: GraduationCap, badge: "Queue" },
     { label: "Gradebook", href: "/teacher/gradebook", icon: BarChart3 },
-    { label: "Class Pulse & GapMap", href: "/teacher/reports", icon: Sparkles },
+    { label: "Class Pulse & GapMap", href: "/teacher/reports", icon: TrendingUp },
     { label: "Profile & Sessions", href: "/profile", icon: Settings },
   ];
 

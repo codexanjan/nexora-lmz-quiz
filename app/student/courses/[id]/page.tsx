@@ -15,7 +15,6 @@ import {
   HelpCircle,
   ArrowRight,
   Clock,
-  Sparkles,
   Users,
   FileCheck2,
 } from "lucide-react";

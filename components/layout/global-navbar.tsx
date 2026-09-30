@@ -7,7 +7,6 @@ import {
   Bell,
   Search,
   ShieldAlert,
-  Sparkles,
   User,
   LogOut,
   Check,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AppLogo } from "@/components/ui/app-logo";
 
 interface NavbarProps {
   user?: {
@@ -87,19 +87,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
     <header className="h-[70px] sticky top-0 z-40 w-full glass-panel border-b border-white/10 px-6 flex items-center justify-between">
       {/* Left: Brand & Workspace */}
       <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center shadow-glow-sm">
-            <Sparkles className="w-5 h-5 text-white" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-heading text-lg font-bold tracking-tight text-white group-hover:text-primary-light transition-colors">
-              NEXORA <span className="text-secondary font-medium">LEARN</span>
-            </span>
-            <span className="text-[10px] text-text-muted tracking-widest uppercase font-mono">
-              Intelligence LMS
-            </span>
-          </div>
-        </Link>
+        <AppLogo size="md" href="/" />
 
         {user?.organizationName && (
           <div className="hidden md:flex items-center gap-2 pl-4 border-l border-white/10 text-xs text-text-secondary">

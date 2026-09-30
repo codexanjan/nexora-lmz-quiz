@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
-  Sparkles,
   ChevronLeft,
   ArrowRight,
   MessageSquare,

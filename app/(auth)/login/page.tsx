@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Sparkles, ArrowRight, ShieldCheck, GraduationCap, UserCheck, Loader2 } from "lucide-react";
+import { ArrowRight, ShieldCheck, GraduationCap, UserCheck, Loader2, Lock, Mail, Zap, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { AppLogo } from "@/components/ui/app-logo";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("student@nexora.demo");
@@ -64,222 +64,252 @@ export default function LoginPage() {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Login failed. Please verify credentials.");
+        throw new Error(data.error || "Authentication failed");
       }
 
-      // Hard navigation to ensure server components and session cookies are fresh
-      const role = data.user.role;
-      if (role === "ADMIN") {
+      if (data.user?.role === "ADMIN") {
         window.location.href = "/admin/overview";
-      } else if (role === "TEACHER") {
+      } else if (data.user?.role === "TEACHER") {
         window.location.href = "/teacher/dashboard";
       } else {
         window.location.href = "/student/dashboard";
       }
     } catch (err: any) {
-      setError(err.message || "Invalid email or password");
+      setError(err.message || "Failed to sign in. Please verify your credentials.");
       setIsLoading(false);
       setLaunchingRole(null);
     }
   };
 
   const instantLogin = (role: "STUDENT" | "TEACHER" | "ADMIN") => {
-    let demoEmail = "student@nexora.demo";
-    if (role === "TEACHER") demoEmail = "teacher@nexora.demo";
-    if (role === "ADMIN") demoEmail = "admin@nexora.demo";
-
     setLaunchingRole(role);
     setSelectedRole(role);
+    const demoEmail =
+      role === "STUDENT"
+        ? "student@nexora.demo"
+        : role === "TEACHER"
+        ? "teacher@nexora.demo"
+        : "admin@nexora.demo";
+
     setEmail(demoEmail);
     setPassword("NexoraPass2026!");
     handleLogin(undefined, demoEmail, "NexoraPass2026!");
   };
 
   return (
-    <div className="min-h-screen bg-[#07111F] flex flex-col justify-center items-center p-4 relative overflow-hidden">
-      {/* Background Ambient Glows */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-nexora-primary/20 rounded-full blur-[128px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-nexora-secondary/15 rounded-full blur-[100px] pointer-events-none" />
+    <div className="min-h-screen bg-[#060D17] text-slate-100 flex flex-col justify-center items-center p-4 relative overflow-hidden selection:bg-indigo-500/30 selection:text-white">
+      {/* Dynamic Ambient Glow Mesh */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-indigo-600/15 via-blue-500/10 to-cyan-400/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-5%] w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Brand Header */}
-      <div className="text-center mb-6 z-10 space-y-2">
-        <Link href="/" className="inline-flex items-center gap-2.5 mb-1 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-nexora-primary to-nexora-secondary flex items-center justify-center shadow-lg shadow-nexora-primary/20">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-display text-2xl font-bold tracking-tight text-white">
-            NEXORA <span className="text-nexora-secondary font-medium">LEARN</span>
-          </span>
-        </Link>
-        <p className="text-xs text-slate-400">Learn smarter. Practice better. Know what to do next.</p>
+      {/* Subtle Grid Background Pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      {/* Brand Header with AppLogo */}
+      <div className="text-center mb-8 z-10 space-y-3">
+        <AppLogo size="xl" variant="stacked" showTagline={false} />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700/60 text-[11px] text-slate-300 font-mono">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          Production Vercel Host & API Gateway Ready
+        </div>
       </div>
 
       <div className="w-full max-w-md space-y-6 z-10">
-        <Card className="p-8 border-white/10 shadow-2xl bg-nexora-surface/90 backdrop-blur-xl">
+        <div className="relative rounded-3xl p-8 bg-slate-900/80 backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+          {/* Top highlight line */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+
           <div className="mb-6">
-            <h1 className="text-xl font-bold text-text-primary">Sign in to your workspace</h1>
-            <p className="text-xs text-text-secondary mt-1">Select a role below or enter your credentials</p>
+            <h1 className="text-xl font-bold font-heading text-white tracking-tight">
+              Sign in to your portal
+            </h1>
+            <p className="text-xs text-slate-400 mt-1">
+              Select a pre-seeded demo profile or enter custom credentials
+            </p>
           </div>
 
-          {/* Role Selection Tabs */}
-          <div className="mb-5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 font-mono block mb-2">
-              Select Demo Profile
+          {/* Role Selection Profiles */}
+          <div className="mb-6">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono block mb-2.5">
+              Select Demo Account Role
             </span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-2.5">
               <button
                 type="button"
                 onClick={() => selectRole("STUDENT")}
-                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                className={`p-3 rounded-2xl border flex flex-col items-center gap-1.5 transition-all relative overflow-hidden group ${
                   selectedRole === "STUDENT"
-                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
-                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                    ? "bg-gradient-to-b from-emerald-500/20 to-emerald-500/5 border-emerald-500/60 text-white shadow-[0_0_20px_rgba(52,211,153,0.2)]"
+                    : "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:border-slate-600"
                 }`}
               >
-                <GraduationCap className="w-4 h-4 text-emerald-400" />
+                <div className="w-7 h-7 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                  <GraduationCap className="w-4 h-4" />
+                </div>
                 <span className="text-xs font-semibold">Student</span>
-                <span className="text-[9px] opacity-70">Anjan</span>
+                <span className="text-[10px] text-slate-400 font-mono">Anjan S.</span>
+                {selectedRole === "STUDENT" && (
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                )}
               </button>
 
               <button
                 type="button"
                 onClick={() => selectRole("TEACHER")}
-                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                className={`p-3 rounded-2xl border flex flex-col items-center gap-1.5 transition-all relative overflow-hidden group ${
                   selectedRole === "TEACHER"
-                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
-                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                    ? "bg-gradient-to-b from-cyan-500/20 to-cyan-500/5 border-cyan-500/60 text-white shadow-[0_0_20px_rgba(6,182,212,0.2)]"
+                    : "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:border-slate-600"
                 }`}
               >
-                <UserCheck className="w-4 h-4 text-cyan-400" />
+                <div className="w-7 h-7 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                  <UserCheck className="w-4 h-4" />
+                </div>
                 <span className="text-xs font-semibold">Teacher</span>
-                <span className="text-[9px] opacity-70">Prof. Ross</span>
+                <span className="text-[10px] text-slate-400 font-mono">Prof. Ross</span>
+                {selectedRole === "TEACHER" && (
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                )}
               </button>
 
               <button
                 type="button"
                 onClick={() => selectRole("ADMIN")}
-                className={`p-2.5 rounded-xl border flex flex-col items-center gap-1 transition-all ${
+                className={`p-3 rounded-2xl border flex flex-col items-center gap-1.5 transition-all relative overflow-hidden group ${
                   selectedRole === "ADMIN"
-                    ? "bg-nexora-primary/25 border-nexora-primary text-white shadow-glow-sm"
-                    : "bg-nexora-elevated/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
+                    ? "bg-gradient-to-b from-indigo-500/20 to-indigo-500/5 border-indigo-500/60 text-white shadow-[0_0_20px_rgba(99,102,241,0.2)]"
+                    : "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200 hover:border-slate-600"
                 }`}
               >
-                <ShieldCheck className="w-4 h-4 text-indigo-400" />
+                <div className="w-7 h-7 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
                 <span className="text-xs font-semibold">Admin</span>
-                <span className="text-[9px] opacity-70">Dr. Vance</span>
+                <span className="text-[10px] text-slate-400 font-mono">Dr. Vance</span>
+                {selectedRole === "ADMIN" && (
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                )}
               </button>
             </div>
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 text-xs mb-4">
-              {error}
+            <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="login-email" className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label htmlFor="login-email" className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
                 Email Address
               </label>
-              <input
-                id="login-email"
-                type="email"
-                placeholder="name@nexora.demo"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors"
-              />
+              <div className="relative">
+                <input
+                  id="login-email"
+                  type="email"
+                  placeholder="name@nexora.demo"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-slate-950/70 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-4 py-2.5 pl-10 text-sm text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-cyan-500/20"
+                />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="login-password" className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label htmlFor="login-password" className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
                 Password
               </label>
-              <input
-                id="login-password"
-                type="password"
-                placeholder="••••••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-nexora-elevated/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-nexora-primary transition-colors font-mono"
-              />
+              <div className="relative">
+                <input
+                  id="login-password"
+                  type="password"
+                  placeholder="••••••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-slate-950/70 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-4 py-2.5 pl-10 text-sm text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-cyan-500/20 font-mono"
+                />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full h-11 bg-gradient-to-r from-nexora-primary to-nexora-secondary hover:opacity-90 text-white font-semibold text-sm rounded-xl shadow-lg shadow-nexora-primary/20 flex items-center justify-center gap-2 mt-2"
+              className="w-full h-11 bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-semibold text-sm rounded-xl shadow-[0_0_25px_rgba(99,102,241,0.3)] flex items-center justify-center gap-2 mt-2 transition-transform active:scale-[0.99]"
               disabled={isLoading}
             >
               {isLoading && !launchingRole ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin mr-1" />
-                  Authenticating...
+                  Authenticating Session...
                 </>
               ) : (
                 <>
-                  Sign In to Nexora <ArrowRight className="w-4 h-4 ml-1" />
+                  Enter Nexora Workspace <ArrowRight className="w-4 h-4 ml-1" />
                 </>
               )}
             </Button>
           </form>
 
-          {/* Instant 1-Click Launchers */}
-          <div className="mt-6 pt-5 border-t border-slate-800 space-y-2">
-            <span className="text-[10px] uppercase tracking-wider text-slate-500 font-mono block text-center">
-              Instant 1-Click Launchers (Bypasses Typing)
+          {/* Quick 1-Click Launchers */}
+          <div className="mt-6 pt-5 border-t border-slate-800/80 space-y-2.5">
+            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-mono block text-center font-semibold">
+              Instant 1-Click Demo Launcher
             </span>
-            <div className="flex items-center justify-center gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 disabled={isLoading}
                 onClick={() => instantLogin("STUDENT")}
-                className="text-xs text-emerald-400 hover:text-emerald-300 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/25 transition-all hover:bg-emerald-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+                className="text-xs text-emerald-400 hover:text-emerald-300 px-2 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 transition-all hover:bg-emerald-500/20 hover:border-emerald-500/50 disabled:opacity-50 flex items-center justify-center gap-1.5 font-medium shadow-sm"
               >
                 {launchingRole === "STUDENT" ? (
-                  <>
-                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
-                  </>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 ) : (
-                  <>Launch Student ↗</>
+                  <>Student ↗</>
                 )}
               </button>
               <button
                 type="button"
                 disabled={isLoading}
                 onClick={() => instantLogin("TEACHER")}
-                className="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/25 transition-all hover:bg-cyan-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+                className="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/25 transition-all hover:bg-cyan-500/20 hover:border-cyan-500/50 disabled:opacity-50 flex items-center justify-center gap-1.5 font-medium shadow-sm"
               >
                 {launchingRole === "TEACHER" ? (
-                  <>
-                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
-                  </>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 ) : (
-                  <>Launch Teacher ↗</>
+                  <>Teacher ↗</>
                 )}
               </button>
               <button
                 type="button"
                 disabled={isLoading}
                 onClick={() => instantLogin("ADMIN")}
-                className="text-xs text-indigo-400 hover:text-indigo-300 px-3 py-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/25 transition-all hover:bg-indigo-500/20 disabled:opacity-50 flex items-center gap-1.5 font-medium"
+                className="text-xs text-indigo-400 hover:text-indigo-300 px-2 py-2 rounded-xl bg-indigo-500/10 border border-indigo-500/25 transition-all hover:bg-indigo-500/20 hover:border-indigo-500/50 disabled:opacity-50 flex items-center justify-center gap-1.5 font-medium shadow-sm"
               >
                 {launchingRole === "ADMIN" ? (
-                  <>
-                    <Loader2 className="w-3 h-3 animate-spin" /> Launching...
-                  </>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
                 ) : (
-                  <>Launch Admin ↗</>
+                  <>Admin ↗</>
                 )}
               </button>
             </div>
           </div>
-        </Card>
+        </div>
 
         <p className="text-center text-xs text-slate-400">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-nexora-primary hover:underline font-medium">
-            Register here
+          New to the platform?{" "}
+          <Link href="/register" className="text-cyan-400 hover:text-cyan-300 hover:underline font-medium">
+            Register academic account
           </Link>
         </p>
       </div>

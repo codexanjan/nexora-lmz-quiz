@@ -3,10 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight, User, Mail, Lock, GraduationCap, UserCheck, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { AppLogo } from "@/components/ui/app-logo";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -35,117 +34,161 @@ export default function RegisterPage() {
       }
 
       if (role === "TEACHER") {
-        router.push("/teacher/dashboard");
+        window.location.href = "/teacher/dashboard";
       } else {
-        router.push("/student/dashboard");
+        window.location.href = "/student/dashboard";
       }
-      router.refresh();
     } catch (err: any) {
-      setError(err.message || "Failed to register");
+      setError(err.message || "Failed to register account");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-deep flex flex-col justify-center items-center p-4 relative overflow-hidden">
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/20 rounded-full blur-[128px] pointer-events-none" />
+    <div className="min-h-screen bg-[#060D17] text-slate-100 flex flex-col justify-center items-center p-4 relative overflow-hidden selection:bg-indigo-500/30 selection:text-white">
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-tr from-indigo-600/15 via-blue-500/10 to-cyan-400/15 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="text-center mb-8 z-10 space-y-2">
-        <Link href="/" className="inline-flex items-center gap-2.5 mb-2 group">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-primary flex items-center justify-center shadow-glow">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
-          <span className="font-heading text-2xl font-bold tracking-tight text-white group-hover:text-primary-light transition-colors">
-            NEXORA <span className="text-secondary font-medium">LEARN</span>
-          </span>
-        </Link>
-        <p className="text-xs text-text-secondary">Create your academic account</p>
+      {/* Subtle Grid */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      <div className="text-center mb-8 z-10 space-y-3">
+        <AppLogo size="xl" variant="stacked" showTagline={false} />
+        <p className="text-xs text-slate-400">Create your academic account on Nexora Learn</p>
       </div>
 
       <div className="w-full max-w-md space-y-6 z-10">
-        <Card className="p-8 border-white/10 shadow-2xl">
+        <div className="relative rounded-3xl p-8 bg-slate-900/80 backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
+
           <div className="mb-6">
-            <h1 className="text-xl font-bold text-text-primary">Create an account</h1>
-            <p className="text-xs text-text-secondary mt-1">Join Nexora Demo University workspace</p>
+            <h1 className="text-xl font-bold font-heading text-white tracking-tight">Create an account</h1>
+            <p className="text-xs text-slate-400 mt-1">Join the Nexora Demo University workspace</p>
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-critical/15 border border-critical/30 text-critical text-xs mb-4">
-              {error}
+            <div className="p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
           <form onSubmit={handleRegister} className="space-y-4">
-            <Input
-              id="register-name"
-              label="Full Name"
-              placeholder="Dr. Jordan Hayes"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-
-            <Input
-              id="register-email"
-              type="email"
-              label="Email address"
-              placeholder="jordan@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <Input
-              id="register-password"
-              type="password"
-              label="Password"
-              placeholder="Minimum 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-text-secondary uppercase tracking-wider">
-                Select Your Role
+            <div>
+              <label className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
+                Account Role
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setRole("STUDENT")}
-                  className={`p-3 rounded-xl border text-xs font-semibold transition-all ${
+                  className={`p-2.5 rounded-xl border flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
                     role === "STUDENT"
-                      ? "bg-primary text-white border-primary-light shadow-glow-sm"
-                      : "bg-surface border-white/10 text-text-secondary hover:text-white"
+                      ? "bg-emerald-500/20 border-emerald-500/60 text-white shadow-[0_0_15px_rgba(52,211,153,0.2)]"
+                      : "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Student
+                  <GraduationCap className="w-4 h-4 text-emerald-400" /> Student
                 </button>
                 <button
                   type="button"
                   onClick={() => setRole("TEACHER")}
-                  className={`p-3 rounded-xl border text-xs font-semibold transition-all ${
+                  className={`p-2.5 rounded-xl border flex items-center justify-center gap-2 text-xs font-semibold transition-all ${
                     role === "TEACHER"
-                      ? "bg-primary text-white border-primary-light shadow-glow-sm"
-                      : "bg-surface border-white/10 text-text-secondary hover:text-white"
+                      ? "bg-cyan-500/20 border-cyan-500/60 text-white shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                      : "bg-slate-800/40 border-slate-700/60 text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  Teacher / Instructor
+                  <UserCheck className="w-4 h-4 text-cyan-400" /> Instructor
                 </button>
               </div>
             </div>
 
-            <Button type="submit" className="w-full mt-2" isLoading={isLoading} loadingText="Creating account...">
-              Create Account <ArrowRight className="w-4 h-4 ml-1" />
+            <div>
+              <label htmlFor="reg-name" className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
+                Full Name
+              </label>
+              <div className="relative">
+                <input
+                  id="reg-name"
+                  type="text"
+                  required
+                  placeholder="e.g. Jane Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-slate-950/70 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-4 py-2.5 pl-10 text-sm text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-cyan-500/20"
+                />
+                <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="reg-email" className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
+                Email Address
+              </label>
+              <div className="relative">
+                <input
+                  id="reg-email"
+                  type="email"
+                  required
+                  placeholder="name@university.edu"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-slate-950/70 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-4 py-2.5 pl-10 text-sm text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-cyan-500/20"
+                />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="reg-password" className="block text-[11px] font-semibold text-slate-300 uppercase tracking-wider mb-1.5 font-mono">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  id="reg-password"
+                  type="password"
+                  required
+                  placeholder="Min. 8 characters"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-slate-950/70 border border-slate-700/80 focus:border-cyan-400 rounded-xl px-4 py-2.5 pl-10 text-sm text-slate-100 placeholder-slate-500 outline-none transition-all shadow-inner focus:ring-2 focus:ring-cyan-500/20 font-mono"
+                />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-11 bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-semibold text-sm rounded-xl shadow-[0_0_25px_rgba(99,102,241,0.3)] flex items-center justify-center gap-2 mt-2 transition-transform active:scale-[0.99]"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-1" />
+                  Creating Account...
+                </>
+              ) : (
+                <>
+                  Create Account <ArrowRight className="w-4 h-4 ml-1" />
+                </>
+              )}
             </Button>
           </form>
-        </Card>
+        </div>
 
-        <p className="text-center text-xs text-text-secondary">
-          Already have an account?{" "}
-          <Link href="/login" className="text-primary-light hover:underline font-medium">
-            Sign in
+        <p className="text-center text-xs text-slate-400">
+          Already registered?{" "}
+          <Link href="/login" className="text-cyan-400 hover:text-cyan-300 hover:underline font-medium">
+            Sign in here
           </Link>
         </p>
       </div>

@@ -11,7 +11,6 @@ import {
   Clock,
   BookOpen,
   ChevronLeft,
-  Sparkles,
   Lightbulb,
   FileCheck2,
 } from "lucide-react";

@@ -12,7 +12,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Sparkles,
+  Activity,
   BookOpen,
   HelpCircle,
   FileCheck2,
@@ -114,7 +114,7 @@ export default async function StudentDashboardPage() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
           <div className="space-y-1.5 z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/30 text-xs font-semibold text-accent mb-1">
-              <Sparkles className="w-3.5 h-3.5" /> Academic Pulse Active
+              <Activity className="w-3.5 h-3.5 text-cyan-400" /> Academic Pulse Active
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold font-heading text-text-primary tracking-tight">
               Good evening, {user.name.split(" ")[0]}.
@@ -143,7 +143,7 @@ export default async function StudentDashboardPage() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2.5">
                     <div className="p-2 rounded-xl bg-primary/20 text-accent border border-primary/30">
-                      <Sparkles className="w-4 h-4" />
+                      <Activity className="w-4 h-4 text-cyan-400" />
                     </div>
                     <div>
                       <h2 className="text-base font-semibold text-text-primary">Learning Pulse™</h2>

@@ -1,6 +1,6 @@
 <div align="center">
 
-# NEXORA LEARN
+# ⚡ NEXORA LEARN
 ### *Learn smarter. Practice better. Know what to do next.*
 
 ![Nexora Learn Hero Banner](public/images/nexora-hero.svg)
@@ -10,28 +10,60 @@
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2.15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Prisma ORM](https://img.shields.io/badge/Prisma-5.21-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Prisma ORM](https://img.shields.io/badge/Prisma-5.22-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
 [![Vitest](https://img.shields.io/badge/Vitest-35%20Tests%20Passing-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
 [![Zero AI](https://img.shields.io/badge/Zero%20AI-100%25%20Explainable%20Rules-06B6D4?style=for-the-badge)](https://github.com/codexanjan/nexora-lmz-quiz)
 [![Languages](https://img.shields.io/badge/Languages-6%20Locales-8B5CF6?style=for-the-badge)](#-multi-language-experience-6-locales)
+[![License: MIT](https://img.shields.io/badge/License-MIT-F59E0B.svg?style=for-the-badge)](LICENSE)
+
+<br/>
 
 **🌐 Live Production App**: [https://nexora-learn-gold.vercel.app](https://nexora-learn-gold.vercel.app)  
-**🚀 Vercel Production Alternate**: [https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app](https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app)  
+**🚀 Direct Vercel Deployment**: [https://nexora-learn-drf111fye-krotrex-2830s-projects.vercel.app](https://nexora-learn-drf111fye-krotrex-2830s-projects.vercel.app)  
 **📂 GitHub Repository**: [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
 
 </div>
 
 ---
 
-## 🌟 Overview
+## 🌟 What is Nexora Learn?
 
-**Nexora Learn** is a modern, enterprise-ready **Learning Management System (LMS) + Assessment Platform + Academic Intelligence Engine**.
+**Nexora Learn** is a next-generation **Learning Management System (LMS) + Assessment Platform + Academic Intelligence Engine**.
 
-Unlike legacy systems that isolate lessons, quizzes, gradebooks, and analytics into disconnected silos, Nexora Learn operates as **one deeply interconnected ecosystem**:
-- **Continuous Flow**: Lessons seamlessly transition into module assessments; quiz submissions instantly compute the student's **Learning Pulse™** and trigger targeted remediation in **ReviewLoop™** with direct links back to syllabus lessons.
-- **100% Explainable & Rule-Based (Zero Black-Box AI)**: No opaque AI hallucination scores or token costs. Every metric—from NextStep recommendations to concept deficit alerts—is grounded in server-verified database telemetry.
+Legacy LMS platforms (such as Canvas, Blackboard, or Moodle) isolate lessons, quizzes, gradebooks, and analytics into disconnected silos. Nexora Learn unifies them into an **interconnected, closed-loop intelligence ecosystem**:
+
+- **Continuous Cognitive Flow**: Lessons transition into module assessments; quiz submissions instantly calculate the student's **Learning Pulse™** and trigger targeted remediation in **ReviewLoop™** with direct links back to syllabus lessons.
+- **100% Explainable & Rule-Based (Zero Black-Box AI)**: No opaque AI hallucination scores, token costs, or unpredictable outputs. Every recommendation, risk alert, and metric is calculated deterministically from real database telemetry.
 - **Multilingual Native Experience**: Instant switching across 6 world languages (🇺🇸 English, 🇪🇸 Español, 🇫🇷 Français, 🇩🇪 Deutsch, 🇮🇳 हिन्दी, 🇯🇵 日本語) stored locally with zero external API dependencies.
-- **Server-Authoritative Anti-Tamper Timing**: Quiz countdowns and deadlines are strictly enforced by server clocks ($\min(\text{closingDate}, \text{startedAt} + \text{duration} + \text{accommodations})$), immune to client system clock modifications.
+- **Server-Authoritative Anti-Tamper Timing**: Quiz countdowns and deadlines are strictly enforced by server clocks ($\min(\text{closingDate}, \text{startedAt} + \text{duration} + \text{accommodations})$), completely immune to client system clock modifications.
+
+---
+
+## ⚡ At a Glance: Key Innovations
+
+| Feature | What It Does | Why It Matters |
+|:---|:---|:---|
+| 🧠 **Learning Pulse™** | Objective student health score ($0\text{--}100$) based on syllabus progress, grades, participation, and overdue penalties. | Students always know their standing with zero opaque AI guessing. |
+| 🧭 **NextStep™ Engine** | Rule-based guide evaluating live state: unfinished lessons ➔ module quizzes ➔ released grades ➔ remediation cards. | Directs learners to their single highest-leverage task immediately. |
+| 🔁 **ReviewLoop™** | Analyzes incorrect assessment answers, groups them by concept tags, and generates remediation paths to specific lessons. | Eliminates passive failure; turns every quiz into a personalized review loop. |
+| 📊 **GapMap™ & Class Pulse** | Instructor cohort view grouping student error rates by concept; detects at-risk learners with 1-click gradebook jump. | Teachers spot cohort-wide misunderstandings before midterms or finals. |
+| ⏱️ **Server-Authoritative Clock** | Dynamic countdown synced with server timestamps; multi-tab conflict detection & autosave with revision locking. | Complete assessment integrity without invasive client-side surveillance. |
+| 🌐 **6-Language i18n** | Full native translations across English, Spanish, French, German, Hindi, and Japanese. | Seamless global academic accessibility without translation latency. |
+
+---
+
+## ⚔️ Nexora Learn vs. Legacy LMS Platforms
+
+| Capability | Legacy LMS (Moodle / Canvas) | Nexora Learn ⚡ |
+|:---|:---:|:---:|
+| **Workflow Connectivity** | Disconnected tabs & menus | **Seamless Closed-Loop Architecture** |
+| **Post-Quiz Remediation** | Static grade with no next steps | **ReviewLoop™ direct lesson remediation** |
+| **Student Health Score** | Buried grade percentages | **Learning Pulse™ (0–100) Explainable Metric** |
+| **Intelligence Engine** | None, or expensive third-party AI | **100% Explainable, Zero AI Token Costs** |
+| **Quiz Timing Integrity** | Vulnerable to client time drift | **Server-Authoritative anti-tamper clock** |
+| **Language Switching** | Requires full page reload | **Instant client-side hot-swapping (6 locales)** |
+| **User Interface** | Dated 2010s enterprise portal | **Modern Cyber-Academic Dark Glassmorphism** |
+| **Data Safety** | Raw spreadsheet exports vulnerable to formula injection | **Automated CSV Sanitization (`=`, `+`, `-`, `@`)** |
 
 ---
 
@@ -39,7 +71,7 @@ Unlike legacy systems that isolate lessons, quizzes, gradebooks, and analytics i
 
 ![Nexora Learn Architecture Diagram](public/images/nexora-architecture.svg)
 
-### How Every Feature Connects to the Next:
+### The Continuous Closed-Loop Pipeline
 
 ```
 [Teacher Creates Course & Syllabus]
@@ -92,7 +124,7 @@ Instructor views cohort deficits             Closes learning loop & retakes quiz
 
 ---
 
-## 🔬 Novelty Intelligence Systems
+## 🔬 Novelty Intelligence Systems (Detailed)
 
 ![Learning Pulse and ReviewLoop Showcase](public/images/nexora-pulse-reviewloop.svg)
 
@@ -136,7 +168,7 @@ Nexora Learn includes a native, client-side internationalization system with loc
 | 🇮🇳 | **Hindi** | हिन्दी | `hi` | Full UI, Navigation, Actions, Signals, Modals |
 | 🇯🇵 | **Japanese** | 日本語 | `ja` | Full UI, Navigation, Actions, Signals, Modals |
 
-Switch languages on the fly using the **Language Selector** in the global navbar. Preferences are instantly saved in `localStorage`.
+Switch languages instantly using the **Language Selector** in the global navigation bar. Preferences are saved in `localStorage`.
 
 ---
 
@@ -168,23 +200,42 @@ Switch languages on the fly using the **Language Selector** in the global navbar
 | **Validation** | Zod | Runtime input validation on all API endpoints |
 | **Security** | Formula Sanitization | CSV injection neutralization (`=`, `+`, `-`, `@`) |
 | **Testing** | Vitest | 35 automated unit tests |
+| **Deployment** | Vercel Serverless | Optimized production edge hosting |
 
 ---
 
-## 🔑 Pre-Seeded Demo Accounts
+## 🔑 Pre-Seeded Demo Accounts (Instant 1-Click Access)
 
-The database comes fully seeded with organizations, courses, lessons, question bank items, quizzes, attempts, and grade revisions.
+The platform comes pre-seeded with complete data across organizations, courses, lessons, question bank items, quizzes, attempts, and grade revisions.
 
 **Universal Password**: `NexoraPass2026!`
 
-| Role | Name | Email | Focus Areas |
-| :--- | :--- | :--- | :--- |
-| **Admin** | Dr. Elena Vance | `admin@nexora.demo` | Tenant governance, users, audit logs, system diagnostics |
-| **Teacher** | Prof. Alexander Ross | `teacher@nexora.demo` | Course builder, quiz versioning, grading queue, gradebook |
-| **Teacher 2** | Dr. Sarah Lin | `teacher2@nexora.demo` | Secondary course instructor |
-| **Student** | Anjan Sharma | `student@nexora.demo` | Active courses, quiz attempts, Learning Pulse (78 pts) |
-| **Student 2** | Marcus Chen | `student2@nexora.demo` | At-risk student flagged in Class Pulse |
-| **Student 3** | Aria Montgomery | `student3@nexora.demo` | Submitted assessment awaiting essay grading in teacher queue |
+| Role | Name | Email | Quick Login | Focus Areas |
+| :--- | :--- | :--- | :---: | :--- |
+| **Student** | Anjan Sharma | `student@nexora.demo` | [1-Click Sign In](https://nexora-learn-gold.vercel.app/login?email=student@nexora.demo) | Active courses, quiz attempts, Learning Pulse (78 pts) |
+| **Teacher** | Prof. Alexander Ross | `teacher@nexora.demo` | [1-Click Sign In](https://nexora-learn-gold.vercel.app/login?email=teacher@nexora.demo) | Course builder, quiz versioning, grading queue, gradebook |
+| **Admin** | Dr. Elena Vance | `admin@nexora.demo` | [1-Click Sign In](https://nexora-learn-gold.vercel.app/login?email=admin@nexora.demo) | Tenant governance, users, audit logs, system diagnostics |
+| **Student 2** | Marcus Chen | `student2@nexora.demo` | [1-Click Sign In](https://nexora-learn-gold.vercel.app/login?email=student2@nexora.demo) | At-risk student flagged in Class Pulse |
+| **Student 3** | Aria Montgomery | `student3@nexora.demo` | [1-Click Sign In](https://nexora-learn-gold.vercel.app/login?email=student3@nexora.demo) | Submitted assessment awaiting essay grading in teacher queue |
+
+---
+
+## 🧪 Automated Test Suite (35 Tests Passing)
+
+All business rules, timing mechanics, grading algorithms, and security sanitizers are covered by automated unit tests in Vitest:
+
+```bash
+> npm test
+
+ ✓ tests/unit/progress.test.ts (4 tests)
+ ✓ tests/unit/quiz-timing.test.ts (4 tests)
+ ✓ tests/unit/i18n.test.ts (4 tests)
+ ✓ tests/unit/grading.test.ts (16 tests)
+ ✓ tests/unit/csv-sanitization.test.ts (7 tests)
+
+ Test Files  5 passed (5)
+      Tests  35 passed (35)
+```
 
 ---
 
@@ -224,7 +275,6 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ```bash
 npm test
 ```
-All **35 automated unit tests** verify grading algorithms, authoritative timing, progress formulas, CSV formula sanitization, and multilingual dictionary integrity.
 
 ---
 
@@ -244,7 +294,7 @@ All **35 automated unit tests** verify grading algorithms, authoritative timing,
 ├── lib/
 │   ├── auth/                   # Session & password security
 │   ├── db/                     # Prisma singleton client
-│   ├── i18n/                   # Multi-language translations & React context
+│   ├── i18n/                   # Multi-language translations & React context (6 locales)
 │   └── services/               # Grading, progress, timing, learning-pulse, nextstep
 ├── prisma/
 │   ├── schema.prisma           # Relational multi-tenant schema
@@ -271,14 +321,15 @@ All **35 automated unit tests** verify grading algorithms, authoritative timing,
 | Resource | Link | Status |
 |:---|:---|:---|
 | **Production App (Vercel)** | [https://nexora-learn-gold.vercel.app](https://nexora-learn-gold.vercel.app) | 🟢 Live & Operational |
-| **Vercel Direct Deployment** | [https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app](https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app) | 🟢 Production Build |
+| **Vercel Direct Deployment** | [https://nexora-learn-drf111fye-krotrex-2830s-projects.vercel.app](https://nexora-learn-drf111fye-krotrex-2830s-projects.vercel.app) | 🟢 Production Build |
 | **GitHub Repository** | [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz) | 🟢 Source Code |
 
 <br/>
 
-**NEXORA LEARN**  
+**⚡ NEXORA LEARN**  
 *Learn smarter. Practice better. Know what to do next.*  
 
-Designed & Built with Next.js 14 App Router, TypeScript, Tailwind CSS, Prisma, and Vitest.
+Designed & Built with Next.js 14 App Router, TypeScript, Tailwind CSS, Prisma, and Vitest.  
+Open Source under the [MIT License](LICENSE).
 
 </div>

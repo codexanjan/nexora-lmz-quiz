@@ -1,6 +1,24 @@
 {
   "name": "nexora-learn",
   "version": "1.0.0",
+  "description": "Next-generation LMS & Assessment Intelligence Engine with server-authoritative quizzes, Learning Pulse™, ReviewLoop™ remediation, and native 6-language i18n. 100% explainable, zero black-box AI.",
+  "author": "Anjan Sharma (codexanjan)",
+  "license": "MIT",
+  "keywords": [
+    "lms",
+    "quiz-app",
+    "nextjs14",
+    "typescript",
+    "assessment",
+    "education",
+    "elearning",
+    "tailwindcss",
+    "prisma",
+    "vitest",
+    "i18n",
+    "dark-mode",
+    "zero-ai"
+  ],
   "private": true,
   "homepage": "https://nexora-learn-gold.vercel.app",
   "repository": {

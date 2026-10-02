@@ -312,6 +312,31 @@ export default function LoginPage() {
             Register academic account
           </Link>
         </p>
+
+        <div className="flex items-center justify-center gap-4 text-[11px] text-slate-500 font-mono pt-1">
+          <Link href="/" className="hover:text-slate-300 transition-colors">
+            ← Home
+          </Link>
+          <span>•</span>
+          <a
+            href="https://nexora-learn-gold.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-cyan-400 transition-colors inline-flex items-center gap-1 text-cyan-500"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Vercel Live
+          </a>
+          <span>•</span>
+          <a
+            href="https://github.com/codexanjan/nexora-lmz-quiz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-slate-300 transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
       </div>
     </div>
   );

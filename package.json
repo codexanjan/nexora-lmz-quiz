@@ -2,6 +2,11 @@
   "name": "nexora-learn",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://nexora-learn-gold.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codexanjan/nexora-lmz-quiz.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",

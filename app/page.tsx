@@ -22,6 +22,8 @@ import {
   Flame,
   Award,
   BookOpen,
+  Github,
+  ExternalLink,
 } from "lucide-react";
 
 export default async function HomePage() {
@@ -59,7 +61,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <AppLogo size="md" href="/" />
 
-          <div className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-300">
+          <div className="hidden md:flex items-center gap-7 text-xs font-medium text-slate-300">
             <a href="#features" className="hover:text-cyan-300 transition-colors">
               Platform Features
             </a>
@@ -72,9 +74,29 @@ export default async function HomePage() {
             <a href="#brand" className="hover:text-cyan-300 transition-colors">
               Brand Identity
             </a>
+            <a
+              href="https://github.com/codexanjan/nexora-lmz-quiz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors"
+              title="GitHub Source"
+            >
+              <Github className="w-3.5 h-3.5" />
+              <span>GitHub</span>
+            </a>
           </div>
 
           <div className="flex items-center gap-3">
+            <a
+              href="https://nexora-learn-gold.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-xs font-medium transition-all"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Vercel Live</span>
+              <ExternalLink className="w-3 h-3 text-cyan-400" />
+            </a>
             <Link
               href="/login"
               className="px-4 py-2 rounded-xl border border-white/10 hover:border-white/20 bg-white/[0.03] hover:bg-white/[0.08] text-slate-200 text-xs font-medium transition-all"
@@ -98,10 +120,16 @@ export default async function HomePage() {
         <section className="text-center space-y-8 max-w-4xl mx-auto pt-4">
           {/* Status Badge */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
-            <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-            <span className="text-xs font-semibold text-cyan-300 tracking-wide">
-              Nexora Pulse™ Engine v1.0 • Live Assessment Intelligence
-            </span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <a
+              href="https://nexora-learn-gold.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-semibold text-cyan-300 hover:text-white tracking-wide inline-flex items-center gap-1.5 transition-colors"
+            >
+              <span>Live on Vercel: nexora-learn-gold.vercel.app</span>
+              <ExternalLink className="w-3 h-3 text-cyan-400" />
+            </a>
           </div>
 
           {/* Punchy Hero Typography */}
@@ -422,12 +450,30 @@ export default async function HomePage() {
             <span>Learn smarter. Practice better. Know what to do next.</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
+          <div className="flex flex-wrap items-center gap-4 text-slate-400 font-mono text-[11px]">
+            <a
+              href="https://nexora-learn-gold.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 hover:underline"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Live on Vercel
+            </a>
+            <span>•</span>
+            <a
+              href="https://github.com/codexanjan/nexora-lmz-quiz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-slate-300 hover:text-white hover:underline"
+            >
+              <Github className="w-3 h-3" />
+              <span>GitHub Repository</span>
+            </a>
+            <span>•</span>
             <span>WCAG 2.2 AA</span>
             <span>•</span>
             <span>Next.js 14 App Router</span>
-            <span>•</span>
-            <span>Vercel Serverless Ready</span>
           </div>
         </footer>
       </main>

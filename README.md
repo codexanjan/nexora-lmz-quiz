@@ -5,6 +5,8 @@
 
 ![Nexora Learn Hero Banner](public/images/nexora-hero.svg)
 
+[![Vercel Deployment](https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://nexora-learn-gold.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live_App-nexora--learn--gold.vercel.app-00dfa2?style=for-the-badge&logo=google-chrome&logoColor=black)](https://nexora-learn-gold.vercel.app)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14.2.15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -13,7 +15,9 @@
 [![Zero AI](https://img.shields.io/badge/Zero%20AI-100%25%20Explainable%20Rules-06B6D4?style=for-the-badge)](https://github.com/codexanjan/nexora-lmz-quiz)
 [![Languages](https://img.shields.io/badge/Languages-6%20Locales-8B5CF6?style=for-the-badge)](#-multi-language-experience-6-locales)
 
-**Live Repository**: [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
+**🌐 Live Production App**: [https://nexora-learn-gold.vercel.app](https://nexora-learn-gold.vercel.app)  
+**🚀 Vercel Production Alternate**: [https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app](https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app)  
+**📂 GitHub Repository**: [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
 
 </div>
 
@@ -262,8 +266,19 @@ All **35 automated unit tests** verify grading algorithms, authoritative timing,
 
 <div align="center">
 
+### 🌐 Quick Links & Access
+
+| Resource | Link | Status |
+|:---|:---|:---|
+| **Production App (Vercel)** | [https://nexora-learn-gold.vercel.app](https://nexora-learn-gold.vercel.app) | 🟢 Live & Operational |
+| **Vercel Direct Deployment** | [https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app](https://nexora-learn-cwwijae34-krotrex-2830s-projects.vercel.app) | 🟢 Production Build |
+| **GitHub Repository** | [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz) | 🟢 Source Code |
+
+<br/>
+
 **NEXORA LEARN**  
 *Learn smarter. Practice better. Know what to do next.*  
-Published at [codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
+
+Designed & Built with Next.js 14 App Router, TypeScript, Tailwind CSS, Prisma, and Vitest.
 
 </div>

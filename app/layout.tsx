@@ -20,6 +20,8 @@ export const metadata: Metadata = {
     "Learn smarter. Practice better. Know what to do next. Production-style modern LMS featuring Learning Pulse™, NextStep™ recommendations, ReviewLoop™, and server-authoritative assessments.",
 };
 
+import { LanguageProvider } from "@/lib/i18n/context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -28,7 +30,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable} ${spaceGrotesk.variable}`}>
       <body className="min-h-screen bg-background font-sans text-text-primary antialiased selection:bg-primary/30 selection:text-white">
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

@@ -95,10 +95,16 @@ export default async function TeacherCoursesPage() {
                   </div>
                 </div>
 
-                <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-2">
+                <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-2">
                   <Link href={`/student/courses/${course.id}`} className="flex-1">
                     <Button variant="outline" size="sm" className="w-full text-xs">
                       Preview
+                    </Button>
+                  </Link>
+
+                  <Link href={`/teacher/quizzes?courseId=${course.id}`} className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      + Add Quiz
                     </Button>
                   </Link>
 

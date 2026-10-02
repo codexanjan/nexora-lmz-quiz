@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Plus, Search, HelpCircle, Tag, Layers, CheckCircle2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -98,9 +99,17 @@ export function QuestionBankClient({
           </select>
         </div>
 
-        <Button size="sm" onClick={() => setIsModalOpen(true)}>
-          <Plus className="w-4 h-4 mr-1.5" /> Add New Question
-        </Button>
+        <div className="flex items-center gap-2">
+          <Link href="/teacher/quizzes">
+            <Button size="sm" variant="outline">
+              <Layers className="w-4 h-4 mr-1.5" /> Open Quiz Builder
+            </Button>
+          </Link>
+
+          <Button size="sm" onClick={() => setIsModalOpen(true)}>
+            <Plus className="w-4 h-4 mr-1.5" /> Add New Question
+          </Button>
+        </div>
       </div>
 
       {/* Questions List */}

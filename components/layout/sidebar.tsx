@@ -19,6 +19,7 @@ import {
   Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface SidebarProps {
   role?: string;
@@ -34,33 +35,34 @@ interface NavItem {
 
 export function Sidebar({ role = "STUDENT", className = "" }: SidebarProps) {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   const studentNav: NavItem[] = [
-    { label: "Dashboard", href: "/student/dashboard", icon: LayoutDashboard },
-    { label: "Courses", href: "/student/courses", icon: BookOpen },
-    { label: "Quizzes", href: "/student/quizzes", icon: HelpCircle },
-    { label: "Results & Feedback", href: "/student/results", icon: FileCheck2 },
-    { label: "Learning Pulse™", href: "/student/learning-pulse", icon: Activity, badge: "Pulse" },
-    { label: "Profile & Sessions", href: "/profile", icon: Settings },
+    { label: t("nav.dashboard", "Dashboard"), href: "/student/dashboard", icon: LayoutDashboard },
+    { label: t("nav.courses", "Courses"), href: "/student/courses", icon: BookOpen },
+    { label: t("nav.quizzes", "Quizzes"), href: "/student/quizzes", icon: HelpCircle },
+    { label: t("nav.results", "Results & Feedback"), href: "/student/results", icon: FileCheck2 },
+    { label: t("nav.learning_pulse", "Learning Pulse™"), href: "/student/learning-pulse", icon: Activity, badge: "Pulse" },
+    { label: t("nav.profile", "Profile & Security"), href: "/profile", icon: Settings },
   ];
 
   const teacherNav: NavItem[] = [
-    { label: "Dashboard", href: "/teacher/dashboard", icon: LayoutDashboard },
-    { label: "Courses", href: "/teacher/courses", icon: BookOpen },
-    { label: "Question Bank", href: "/teacher/question-bank", icon: HelpCircle },
-    { label: "Quiz Builder", href: "/teacher/quizzes", icon: Layers },
-    { label: "Grading Queue", href: "/teacher/submissions", icon: GraduationCap, badge: "Queue" },
-    { label: "Gradebook", href: "/teacher/gradebook", icon: BarChart3 },
-    { label: "Class Pulse & GapMap", href: "/teacher/reports", icon: TrendingUp },
-    { label: "Profile & Sessions", href: "/profile", icon: Settings },
+    { label: t("nav.dashboard", "Dashboard"), href: "/teacher/dashboard", icon: LayoutDashboard },
+    { label: t("nav.courses", "Courses"), href: "/teacher/courses", icon: BookOpen },
+    { label: t("nav.question_bank", "Question Bank"), href: "/teacher/question-bank", icon: HelpCircle },
+    { label: t("action.build_quiz", "Quiz Builder"), href: "/teacher/quizzes", icon: Layers },
+    { label: t("nav.submissions", "Grading Queue"), href: "/teacher/submissions", icon: GraduationCap, badge: "Queue" },
+    { label: t("nav.gradebook", "Gradebook"), href: "/teacher/gradebook", icon: BarChart3 },
+    { label: t("nav.reports", "Class Pulse & GapMap"), href: "/teacher/reports", icon: TrendingUp },
+    { label: t("nav.profile", "Profile & Security"), href: "/profile", icon: Settings },
   ];
 
   const adminNav: NavItem[] = [
-    { label: "Overview", href: "/admin/overview", icon: LayoutDashboard },
-    { label: "Users & Roles", href: "/admin/users", icon: Users },
-    { label: "System Health", href: "/admin/health", icon: ShieldAlert },
-    { label: "Audit Log", href: "/admin/audit-log", icon: Layers },
-    { label: "Profile & Sessions", href: "/profile", icon: Settings },
+    { label: t("nav.dashboard", "Overview"), href: "/admin/overview", icon: LayoutDashboard },
+    { label: t("nav.users", "Users & Roles"), href: "/admin/users", icon: Users },
+    { label: t("nav.health", "System Health"), href: "/admin/health", icon: ShieldAlert },
+    { label: t("nav.audit_log", "Audit Log"), href: "/admin/audit-log", icon: Layers },
+    { label: t("nav.profile", "Profile & Security"), href: "/profile", icon: Settings },
   ];
 
   const navItems = role === "ADMIN" ? adminNav : role === "TEACHER" ? teacherNav : studentNav;

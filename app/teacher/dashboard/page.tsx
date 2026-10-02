@@ -181,6 +181,13 @@ export default async function TeacherDashboardPage() {
                           </div>
                         ))}
                       </div>
+                      <div className="pt-2 border-t border-white/5 flex justify-end">
+                        <Link href={`/teacher/gradebook?search=${encodeURIComponent(st.studentName)}`}>
+                          <Button size="sm" variant="outline" className="text-[10px] h-7 px-2">
+                            View in Gradebook <ArrowRight className="w-3 h-3 ml-1" />
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   ))
                 )}

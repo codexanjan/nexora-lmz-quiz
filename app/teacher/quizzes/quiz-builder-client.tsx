@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, Layers, Clock, HelpCircle, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
+import { Plus, Layers, Clock, HelpCircle, CheckCircle2, AlertTriangle, ArrowRight, ExternalLink, GraduationCap } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ interface QuestionItem {
 
 interface QuizItem {
   id: string;
+  courseId?: string;
   title: string;
   course: { code: string; title: string };
   timeLimitMinutes: number;
@@ -34,16 +36,18 @@ export function QuizBuilderClient({
   quizzes,
   courses,
   availableQuestions,
+  defaultCourseId,
 }: {
   quizzes: QuizItem[];
   courses: { id: string; title: string; code: string }[];
   availableQuestions: QuestionItem[];
+  defaultCourseId?: string;
 }) {
   const router = useRouter();
-  const [isBuilderOpen, setIsBuilderOpen] = useState(false);
+  const [isBuilderOpen, setIsBuilderOpen] = useState(!!defaultCourseId);
 
   // Form State
-  const [courseId, setCourseId] = useState(courses[0]?.id || "");
+  const [courseId, setCourseId] = useState(defaultCourseId || courses[0]?.id || "");
   const [title, setTitle] = useState("");
   const [instructions, setInstructions] = useState("");
   const [timeLimitMinutes, setTimeLimitMinutes] = useState(30);
@@ -194,9 +198,27 @@ export function QuizBuilderClient({
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <Badge variant="success">Active</Badge>
-                <span className="text-[11px] text-text-muted">Grade Rule: {latest ? "HIGHEST" : "LATEST"}</span>
+              <div className="pt-4 border-t border-white/10 space-y-3">
+                <div className="flex items-center justify-between text-xs">
+                  <Badge variant="success">Active</Badge>
+                  <span className="text-[11px] text-text-muted">Grade Rule: {latest ? "HIGHEST" : "LATEST"}</span>
+                </div>
+
+                <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+                  <Link href={`/teacher/submissions`} className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      <GraduationCap className="w-3.5 h-3.5 mr-1" />
+                      Submissions ({quiz._count.attempts})
+                    </Button>
+                  </Link>
+
+                  <Link href={`/student/quizzes/${quiz.id}`} className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full text-xs">
+                      <ExternalLink className="w-3.5 h-3.5 mr-1" />
+                      Student View
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </Card>
           );

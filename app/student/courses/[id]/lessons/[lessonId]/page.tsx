@@ -13,6 +13,10 @@ import {
   ChevronLeft,
   Lightbulb,
   FileCheck2,
+  HelpCircle,
+  ArrowRight,
+  Layers,
+  CheckCircle2,
 } from "lucide-react";
 import { LessonCompleteButton } from "./lesson-complete-button";
 
@@ -57,12 +61,77 @@ export default async function LessonDetailPage({
     redirect(`/student/courses/${courseId}`);
   }
 
-  // Find next lesson
+  // 1. Next lesson in current module
   const currentIdx = lesson.module.lessons.findIndex((l) => l.id === lesson.id);
   const nextLesson = lesson.module.lessons[currentIdx + 1];
-  const nextLessonUrl = nextLesson ? `/student/courses/${courseId}/lessons/${nextLesson.id}` : undefined;
+
+  // 2. Published quiz associated with this module or course
+  const moduleQuiz = await prisma.quiz.findFirst({
+    where: {
+      OR: [
+        { moduleId: lesson.moduleId, state: "PUBLISHED" },
+        { courseId: courseId, moduleId: null, state: "PUBLISHED" },
+      ],
+    },
+    orderBy: { createdAt: "desc" },
+    include: {
+      attempts: {
+        where: { studentId: user.id },
+        orderBy: { attemptNumber: "desc" },
+        take: 1,
+      },
+    },
+  });
+
+  // 3. Next module if this is the last lesson of current module
+  let nextModuleFirstLesson: { id: string; title: string; moduleTitle: string } | null = null;
+  if (!nextLesson) {
+    const nextModule = await prisma.module.findFirst({
+      where: {
+        courseId,
+        orderIndex: { gt: lesson.module.orderIndex },
+      },
+      orderBy: { orderIndex: "asc" },
+      include: {
+        lessons: { orderBy: { orderIndex: "asc" }, take: 1 },
+      },
+    });
+    if (nextModule?.lessons[0]) {
+      nextModuleFirstLesson = {
+        id: nextModule.lessons[0].id,
+        title: nextModule.lessons[0].title,
+        moduleTitle: nextModule.title,
+      };
+    }
+  }
+
+  // Determine next action URL and label
+  let nextActionUrl: string | undefined = undefined;
+  let nextActionLabel: string | undefined = undefined;
+  let isQuizNext = false;
+
+  if (nextLesson) {
+    nextActionUrl = `/student/courses/${courseId}/lessons/${nextLesson.id}`;
+    nextActionLabel = `Next Lesson: ${nextLesson.title}`;
+  } else if (moduleQuiz) {
+    nextActionUrl = `/student/quizzes/${moduleQuiz.id}`;
+    nextActionLabel = `Take Assessment: ${moduleQuiz.title}`;
+    isQuizNext = true;
+  } else if (nextModuleFirstLesson) {
+    nextActionUrl = `/student/courses/${courseId}/lessons/${nextModuleFirstLesson.id}`;
+    nextActionLabel = `Next Module: ${nextModuleFirstLesson.title}`;
+  }
 
   const isCompleted = lesson.progress[0]?.isCompleted || false;
+
+  // Fetch sibling lessons in module with progress to show quick navigation bar
+  const siblingLessons = await prisma.lesson.findMany({
+    where: { moduleId: lesson.moduleId },
+    orderBy: { orderIndex: "asc" },
+    include: {
+      progress: { where: { studentId: user.id } },
+    },
+  });
 
   return (
     <AppShell user={user}>
@@ -103,11 +172,13 @@ export default async function LessonDetailPage({
             </p>
           )}
 
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between">
+          <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
             <LessonCompleteButton
               lessonId={lesson.id}
               isAlreadyCompleted={isCompleted}
-              nextLessonUrl={nextLessonUrl}
+              nextLessonUrl={nextActionUrl}
+              nextActionLabel={nextActionLabel}
+              isQuizNext={isQuizNext}
             />
           </div>
         </div>
@@ -131,8 +202,76 @@ export default async function LessonDetailPage({
           </div>
         )}
 
+        {/* Next Step / Module Assessment Callout */}
+        {moduleQuiz && !nextLesson && (
+          <div className="p-6 rounded-3xl bg-gradient-to-r from-primary/20 to-accent/10 border border-primary/30 space-y-3 shadow-glow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-bold text-accent font-mono uppercase">
+                <HelpCircle className="w-4 h-4 text-cyan-400" /> Module Complete — Assessment Ready
+              </div>
+              <Badge variant="primary">Graded Assessment</Badge>
+            </div>
+            <h3 className="text-base font-bold text-text-primary">
+              Ready to test your understanding of {lesson.module.title}?
+            </h3>
+            <p className="text-xs text-text-secondary leading-relaxed">
+              Take the &quot;{moduleQuiz.title}&quot; quiz now to earn points towards your course grade and update your Learning Pulse™.
+            </p>
+            <div className="pt-2 flex items-center gap-3">
+              <Link href={`/student/quizzes/${moduleQuiz.id}`}>
+                <Button size="sm" variant="primary">
+                  Take Assessment Now <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
+                </Button>
+              </Link>
+              <Link href={`/student/courses/${courseId}`}>
+                <Button size="sm" variant="outline">
+                  Review Syllabus First
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Module Quick Jump Navigator */}
+        <div className="p-5 rounded-2xl glass-card border border-white/10 space-y-3">
+          <div className="flex items-center justify-between text-xs font-mono text-text-muted">
+            <span className="uppercase font-semibold tracking-wider">Lessons in this Module:</span>
+            <span>{siblingLessons.filter((l) => l.progress[0]?.isCompleted).length} / {siblingLessons.length} Completed</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {siblingLessons.map((sib) => {
+              const isCurrent = sib.id === lesson.id;
+              const sibCompleted = sib.progress[0]?.isCompleted;
+              return (
+                <Link
+                  key={sib.id}
+                  href={`/student/courses/${courseId}/lessons/${sib.id}`}
+                  className={`p-2.5 rounded-xl border text-xs flex items-center justify-between transition-colors ${
+                    isCurrent
+                      ? "bg-primary/20 border-primary text-white font-medium shadow-sm"
+                      : "bg-surface/60 border-white/5 text-text-secondary hover:bg-white/[0.04] hover:text-text-primary"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    {sibCompleted ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-success shrink-0" />
+                    ) : (
+                      <span className="w-3.5 h-3.5 rounded-full border border-white/20 shrink-0" />
+                    )}
+                    <span className="truncate">{sib.title}</span>
+                  </div>
+                  {isCurrent && (
+                    <span className="text-[10px] font-mono text-accent shrink-0">Current</span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Bottom Completion Bar */}
-        <div className="flex items-center justify-between pt-6 border-t border-white/10">
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-white/10">
           <Link href={`/student/courses/${courseId}`}>
             <Button variant="outline" size="sm">
               <ChevronLeft className="w-4 h-4 mr-1" /> Return to Syllabus
@@ -142,7 +281,9 @@ export default async function LessonDetailPage({
           <LessonCompleteButton
             lessonId={lesson.id}
             isAlreadyCompleted={isCompleted}
-            nextLessonUrl={nextLessonUrl}
+            nextLessonUrl={nextActionUrl}
+            nextActionLabel={nextActionLabel}
+            isQuizNext={isQuizNext}
           />
         </div>
       </div>

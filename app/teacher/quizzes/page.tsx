@@ -7,7 +7,11 @@ import { QuizBuilderClient } from "./quiz-builder-client";
 
 export const dynamic = "force-dynamic";
 
-export default async function TeacherQuizzesPage() {
+export default async function TeacherQuizzesPage({
+  searchParams,
+}: {
+  searchParams?: { courseId?: string };
+}) {
   const user = await getCurrentUser();
   if (!user || user.activeRole === "STUDENT") redirect("/login");
 
@@ -75,6 +79,7 @@ export default async function TeacherQuizzesPage() {
           quizzes={quizzes}
           courses={courses}
           availableQuestions={availableQuestions}
+          defaultCourseId={searchParams?.courseId}
         />
       </div>
     </AppShell>

@@ -18,6 +18,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AppLogo } from "@/components/ui/app-logo";
+import { LanguageSelector } from "@/components/ui/language-selector";
+import { useLanguage } from "@/lib/i18n/context";
 
 interface NavbarProps {
   user?: {
@@ -33,6 +35,7 @@ interface NavbarProps {
 
 export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: NavbarProps) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [notifications, setNotifications] = useState<any[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -105,7 +108,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
         >
           <div className="flex items-center gap-2">
             <Search className="w-4 h-4" />
-            <span>Search courses, quizzes, questions...</span>
+            <span>{t("nav.search_placeholder", "Search courses, quizzes, questions...")}</span>
           </div>
           <kbd className="px-2 py-0.5 rounded bg-white/[0.06] border border-white/10 font-mono text-[10px] text-text-muted">
             Ctrl+K
@@ -113,8 +116,11 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
         </button>
       </div>
 
-      {/* Right: Actions, Notifications, Alerts, Profile */}
-      <div className="flex items-center gap-3">
+      {/* Right: Actions, Languages, Notifications, Alerts, Profile */}
+      <div className="flex items-center gap-2 sm:gap-3">
+        {/* Language Selector */}
+        <LanguageSelector />
+
         {/* System Alert Center Trigger */}
         <button
           onClick={onOpenAlerts}
@@ -153,7 +159,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
                     onClick={handleMarkAllRead}
                     className="text-xs text-primary-light hover:underline"
                   >
-                    Mark all read
+                    {t("action.mark_all_read", "Mark all read")}
                   </button>
                 )}
               </div>
@@ -225,7 +231,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
                   className="flex items-center gap-2.5 px-3 py-2 text-xs text-text-secondary hover:text-text-primary hover:bg-white/[0.06] rounded-xl transition-colors"
                 >
                   <User className="w-3.5 h-3.5" />
-                  <span>Profile & Security</span>
+                  <span>{t("nav.profile", "Profile & Security")}</span>
                 </Link>
 
                 <div className="pt-1 border-t border-white/10 mt-1">
@@ -234,7 +240,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
                     className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-critical hover:bg-critical/10 rounded-xl transition-colors"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Sign Out</span>
+                    <span>{t("nav.sign_out", "Sign Out")}</span>
                   </button>
                 </div>
               </div>
@@ -242,7 +248,7 @@ export function GlobalNavbar({ user, onOpenAlerts, onOpenCommandPalette }: Navba
           </div>
         ) : (
           <Link href="/login">
-            <Button size="sm">Sign In</Button>
+            <Button size="sm">{t("nav.sign_in", "Sign In")}</Button>
           </Link>
         )}
       </div>

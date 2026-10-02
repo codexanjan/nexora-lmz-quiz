@@ -16,6 +16,7 @@ import {
   GraduationCap,
   History,
   FileCheck2,
+  BarChart3,
 } from "lucide-react";
 import { TeacherGradingForm } from "./grading-form";
 
@@ -55,12 +56,21 @@ export default async function TeacherSubmissionDetailPage({
   return (
     <AppShell user={user}>
       <div className="max-w-4xl mx-auto space-y-8 pb-16">
-        <Link
-          href="/teacher/submissions"
-          className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" /> Back to Submissions Queue
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Link
+            href="/teacher/submissions"
+            className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" /> Back to Submissions Queue
+          </Link>
+
+          <Link
+            href={`/teacher/gradebook?courseId=${attempt.quiz.courseId}`}
+            className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline transition-colors"
+          >
+            <BarChart3 className="w-3.5 h-3.5" /> View {attempt.quiz.course.code} Gradebook
+          </Link>
+        </div>
 
         {/* Header Summary Card */}
         <div className="p-8 rounded-3xl glass-card border border-white/10 space-y-4">

@@ -1,96 +1,200 @@
+<div align="center">
+
 # NEXORA LEARN
 ### *Learn smarter. Practice better. Know what to do next.*
 
-Nexora Learn is a full-featured, production-style modern **Learning Management System (LMS) + Assessment Platform + Learning Intelligence Engine**. 
+![Nexora Learn Hero Banner](public/images/nexora-hero.svg)
 
-Unlike conventional platforms that fracture courses, assessments, analytics, and notifications into disconnected silos, Nexora Learn operates as **one interconnected ecosystem**:
-- When a teacher publishes a course or quiz, enrolled students immediately receive targeted notifications and actionable **NextStep™** guidance.
-- When a student completes a lesson, course progress recalculates dynamically using a transparent, explainable formula ($13/17 \text{ activities} \to 76\%$).
-- When taking an assessment, deadlines are strictly **server-authoritative**, accommodating individual extra time needs, and answers autosave with optimistic concurrency and incremental revision tracking to guarantee zero data loss.
-- Submissions instantly grade objective questions (Single Choice, Multiple Select, True/False, Short Answer with synonym normalization) and queue essays for manual instructor evaluation.
-- Teachers grade essays using rubrics, preserving an immutable **GradeRevision** history.
-- Released results feed directly into the student's **Learning Pulse™** and populate the **ReviewLoop™** with prioritized remediation steps based on concept tags.
-- Teachers observe live cohort trends through **Class Pulse** and pinpoint curriculum-wide weaknesses via **GapMap™**.
+[![Next.js 14](https://img.shields.io/badge/Next.js-14.2.15-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Prisma ORM](https://img.shields.io/badge/Prisma-5.21-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Vitest](https://img.shields.io/badge/Vitest-35%20Tests%20Passing-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
+[![Zero AI](https://img.shields.io/badge/Zero%20AI-100%25%20Explainable%20Rules-06B6D4?style=for-the-badge)](https://github.com/codexanjan/nexora-lmz-quiz)
+[![Languages](https://img.shields.io/badge/Languages-6%20Locales-8B5CF6?style=for-the-badge)](#-multi-language-experience-6-locales)
+
+**Live Repository**: [https://github.com/codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
+
+</div>
 
 ---
 
-## 📸 Core Features & Novelty Systems
+## 🌟 Overview
+
+**Nexora Learn** is a modern, enterprise-ready **Learning Management System (LMS) + Assessment Platform + Academic Intelligence Engine**.
+
+Unlike legacy systems that isolate lessons, quizzes, gradebooks, and analytics into disconnected silos, Nexora Learn operates as **one deeply interconnected ecosystem**:
+- **Continuous Flow**: Lessons seamlessly transition into module assessments; quiz submissions instantly compute the student's **Learning Pulse™** and trigger targeted remediation in **ReviewLoop™** with direct links back to syllabus lessons.
+- **100% Explainable & Rule-Based (Zero Black-Box AI)**: No opaque AI hallucination scores or token costs. Every metric—from NextStep recommendations to concept deficit alerts—is grounded in server-verified database telemetry.
+- **Multilingual Native Experience**: Instant switching across 6 world languages (🇺🇸 English, 🇪🇸 Español, 🇫🇷 Français, 🇩🇪 Deutsch, 🇮🇳 हिन्दी, 🇯🇵 日本語) stored locally with zero external API dependencies.
+- **Server-Authoritative Anti-Tamper Timing**: Quiz countdowns and deadlines are strictly enforced by server clocks ($\min(\text{closingDate}, \text{startedAt} + \text{duration} + \text{accommodations})$), immune to client system clock modifications.
+
+---
+
+## 🏗️ System Architecture & Interconnected Flow
+
+![Nexora Learn Architecture Diagram](public/images/nexora-architecture.svg)
+
+### How Every Feature Connects to the Next:
+
+```
+[Teacher Creates Course & Syllabus]
+            │
+            ▼
+[Question Bank (5 Modalities)] ──► [Quiz Builder (Versions & Timing)]
+                                                  │
+                                                  ▼
+                                     [Published to Enrolled Students]
+                                                  │
+ ┌────────────────────────────────────────────────┴───────────────────────────────┐
+ │                                                                                │
+ ▼                                                                                ▼
+[Student: NextStep™ Engine]                                          [Student: Interactive Syllabus]
+ guides next highest-leverage task                                   reads lesson, video & takeaways
+ │                                                                                │
+ └───────────────────────────────┬────────────────────────────────────────────────┘
+                                 │
+                                 ▼
+                     [Module Assessment Ready]
+                     (Direct 1-click launch from lesson)
+                                 │
+                                 ▼
+                     [Live Quiz Taking Engine]
+                     (Autosave, revision counters, anti-tamper)
+                                 │
+                                 ▼
+                     [Deterministic Grading]
+                     - Objective: Instant Scoring
+                     - Essay: Teacher Rubric Queue
+                                 │
+                                 ▼
+                     [Student Result & Feedback]
+                     - Question Analysis & Rubric Comments
+                     - Course Syllabus Return Button
+                     - Retake Assessment Button (if attempts remain)
+                                 │
+                                 ▼
+         ┌───────────────────────┴───────────────────────┐
+         │                                               │
+         ▼                                               ▼
+[⚡ Learning Pulse™ (0–100)]                 [🔁 ReviewLoop™ Queue]
+Transparent academic health index            Concept tags mapped directly
+(+Syllabus, +Participation, -Overdue)        to recommended lessons for review!
+         │                                               │
+         ▼                                               ▼
+[📊 Class Pulse & GapMap™]                   [Student Studies Suggested Lesson]
+Instructor views cohort deficits             Closes learning loop & retakes quiz!
+```
+
+---
+
+## 🔬 Novelty Intelligence Systems
+
+![Learning Pulse and ReviewLoop Showcase](public/images/nexora-pulse-reviewloop.svg)
 
 ### 1. ⚡ Learning Pulse™
-An objective, explainable learning health score (0–100) computed from:
-- Required syllabus completion
-- Quiz participation rate
-- Finalized assessment scores
-- Overdue activities
-- Learning consistency  
-*No opaque "AI scores"—students are explicitly shown which signals increase or decrease their pulse.*
+An objective, explainable academic health score ($0\text{--}100$) calculated deterministically from real database telemetry:
+- **Required Syllabus Completion**: $n / m$ required activities ($+76\text{ pts}$)
+- **Assessment Proficiency**: Finalized grades across selected attempts
+- **Turnout Consistency**: Quiz participation rate ($+15\text{ pts}$)
+- **Overdue Penalties**: Negative weight deductions for missed deadlines ($-10\text{ pts}$)
+
+> **Zero Black-Box AI Guarantee**: Students can view every positive and negative signal contributing to their pulse score. Nothing is hidden behind an opaque neural network.
 
 ### 2. 🧭 NextStep™ Engine
-An actionable recommendation engine that inspects real database state and guides students to their highest-leverage next task (e.g. *"Complete Module 2"*, *"Take Machine Learning Foundations Quiz"*, or *"Review instructor feedback"*).
+An actionable recommendation engine that inspects real database state:
+- If a student has an unfinished lesson: guides directly to the next lesson.
+- If a student completed a module: alerts them to take the module assessment.
+- If an instructor released an essay grade: guides student to review rubric feedback.
+- If an assessment had missed concepts: guides student to open ReviewLoop™.
 
 ### 3. 🔁 ReviewLoop™
-Post-assessment retention system. Groups questions answered incorrectly by concept tags (e.g., *Bayes Theorem*, *Precision vs. Recall*) and maps them directly back to source lessons for targeted review.
+Post-assessment retention system. Groups incorrect answers by concept tags (e.g., *Bayes Theorem*, *Precision vs. Recall*, *Gradient Descent*) and generates direct remediation cards linking students straight to the specific lesson that teaches that concept.
 
 ### 4. 📊 Class Pulse & GapMap™
-Instructor cohort intelligence. Aggregates student error rates across all questions to identify topic-level deficits (*GapMap*), highlights students requiring intervention, and tracks syllabus completion.
+Instructor cohort intelligence:
+- Aggregates student error rates across all questions to identify topic-level deficits (**GapMap™**).
+- Pinpoints students requiring academic support with explicit reasons (e.g. *"Overdue lessons in Module 2"*, *"Score below 60%"*).
+- 1-click jump from at-risk students into the Gradebook.
 
-### 5. ⏱️ Server-Authoritative Timing & Autosave
-- Millisecond-accurate deadlines: $\min(\text{quizClosingAt}, \text{attemptStartedAt} + \text{duration} + \text{accommodations})$.
-- Answers autosave incrementally with client-side debouncing and server-side revision counters.
-- Multi-tab conflict detection prevents duplicate attempts or race-condition submissions.
+---
 
-### 6. 🛡️ Multi-Tenant Organization Scoping & Auditing
-- Scoped tenant isolation (`Organization` $\to$ `Membership` $\to$ `Role`).
-- Comprehensive immutable audit trail (`AuditEvent`) recording role modifications, course and quiz publications, attempt submissions, and grading revisions.
-- CSV export protected against formula injection (cells starting with `=`, `+`, `-`, `@` prepended with `'`).
+## 🌐 Multi-Language Experience (6 Locales)
+
+Nexora Learn includes a native, client-side internationalization system with local dictionaries and zero external AI latency:
+
+| Flag | Language | Native Name | Code | Coverage |
+| :---: | :---: | :---: | :---: | :--- |
+| 🇺🇸 | **English** | English | `en` | Full UI, Navigation, Actions, Signals, Modals |
+| 🇪🇸 | **Spanish** | Español | `es` | Full UI, Navigation, Actions, Signals, Modals |
+| 🇫🇷 | **French** | Français | `fr` | Full UI, Navigation, Actions, Signals, Modals |
+| 🇩🇪 | **German** | Deutsch | `de` | Full UI, Navigation, Actions, Signals, Modals |
+| 🇮🇳 | **Hindi** | हिन्दी | `hi` | Full UI, Navigation, Actions, Signals, Modals |
+| 🇯🇵 | **Japanese** | 日本語 | `ja` | Full UI, Navigation, Actions, Signals, Modals |
+
+Switch languages on the fly using the **Language Selector** in the global navbar. Preferences are instantly saved in `localStorage`.
+
+---
+
+## ⏱️ Server-Authoritative Assessments
+
+- **Authoritative Clock**: $\text{deadline} = \min(\text{quizClosingDate}, \text{attemptStartedAt} + \text{duration} + \text{extraTime})$.
+- **Zero-Loss Autosave**: Client debouncing + server-side revision counter with optimistic concurrency locking.
+- **Multi-Tab Conflict Prevention**: Prevents multiple active tabs from overwriting answers.
+- **5 Question Modalities**:
+  1. `SINGLE_CHOICE` — Automated exact match
+  2. `MULTIPLE_SELECT` — Set equality comparison
+  3. `TRUE_FALSE` — Boolean truth evaluation
+  4. `SHORT_ANSWER` — Normalized string matching (whitespace collapsing, case-insensitivity, synonym list)
+  5. `ESSAY` — Instructor rubric evaluation with immutable `GradeRevision` audit history
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Domain | Technology |
-| :--- | :--- |
-| **Framework** | Next.js 14 (App Router, Server Components, Route Handlers) |
-| **Language** | TypeScript |
-| **Styling & Design** | Tailwind CSS, Dark Futuristic Academic Theme, Glassmorphism |
-| **Component Primitives** | shadcn/ui accessible patterns, Lucide React icons |
-| **Animations** | Framer Motion (respects `prefers-reduced-motion`) |
-| **Visualizations** | Recharts (responsive charts with accessible tabular summaries) |
-| **Persistence** | Prisma ORM, SQLite (`dev.db` for local dev) / PostgreSQL (production) |
-| **Authentication** | Cryptographic random 256-bit database sessions with HttpOnly cookies, bcrypt hashing |
-| **Validation** | Zod schemas on all API endpoints |
-| **Event Pipeline** | Transactional Outbox Pattern (`OutboxEvent` table) |
-| **Testing** | Vitest (31 unit tests covering grading, progress, timing, sanitization) |
+| Domain | Technology | Description |
+| :--- | :--- | :--- |
+| **Framework** | Next.js 14 | App Router, React Server Components, Route Handlers |
+| **Language** | TypeScript | 100% strict type safety across client and server |
+| **Styling** | Tailwind CSS | Dark Futuristic Cyber-Academic Theme, Glassmorphism |
+| **Icons & Motion** | Lucide React + Framer Motion | Accessible primitives, smooth state transitions |
+| **Charts** | Recharts | Responsive visualizations with tabular fallbacks |
+| **Database & ORM** | Prisma + SQLite / Postgres | Multi-tenant schema, versioning, audit logging |
+| **Authentication** | Cryptographic Sessions | 256-bit secure sessions, HttpOnly cookies, bcrypt |
+| **Validation** | Zod | Runtime input validation on all API endpoints |
+| **Security** | Formula Sanitization | CSV injection neutralization (`=`, `+`, `-`, `@`) |
+| **Testing** | Vitest | 35 automated unit tests |
 
 ---
 
 ## 🔑 Pre-Seeded Demo Accounts
 
-The database comes fully populated with realistic demo courses, lessons, question bank entries, versioned quizzes, attempts, and grade revisions.
+The database comes fully seeded with organizations, courses, lessons, question bank items, quizzes, attempts, and grade revisions.
 
-**Universal Demo Password**: `NexoraPass2026!`
+**Universal Password**: `NexoraPass2026!`
 
-| Role | Email | Capabilities |
-| :--- | :--- | :--- |
-| **Administrator** | `admin@nexora.demo` | Tenant governance, role assignments, audit logs, system health telemetry. |
-| **Instructor 1** | `teacher@nexora.demo` | Course creation, question bank, quiz builder, grading queue, gradebook, reports. |
-| **Instructor 2** | `teacher2@nexora.demo` | Co-instructor assigned to secondary courses. |
-| **Student 1** | `student@nexora.demo` | Enrolled in active courses, completed lessons, ready for quiz attempts, Learning Pulse 78. |
-| **Student 2** | `student2@nexora.demo` | Overdue lessons, requires intervention in Class Pulse. |
-| **Student 3** | `student3@nexora.demo` | Submitted assessment awaiting essay grading in teacher queue. |
+| Role | Name | Email | Focus Areas |
+| :--- | :--- | :--- | :--- |
+| **Admin** | Dr. Elena Vance | `admin@nexora.demo` | Tenant governance, users, audit logs, system diagnostics |
+| **Teacher** | Prof. Alexander Ross | `teacher@nexora.demo` | Course builder, quiz versioning, grading queue, gradebook |
+| **Teacher 2** | Dr. Sarah Lin | `teacher2@nexora.demo` | Secondary course instructor |
+| **Student** | Anjan Sharma | `student@nexora.demo` | Active courses, quiz attempts, Learning Pulse (78 pts) |
+| **Student 2** | Marcus Chen | `student2@nexora.demo` | At-risk student flagged in Class Pulse |
+| **Student 3** | Aria Montgomery | `student3@nexora.demo` | Submitted assessment awaiting essay grading in teacher queue |
 
 ---
 
 ## 🚀 Quick Start Guide
 
 ### 1. Prerequisites
-- Node.js v20+ or v22+
-- npm v10+
+- **Node.js** v20+ or v22+
+- **npm** v10+
 
-### 2. Installation
+### 2. Clone & Install
 ```bash
-# Clone or navigate to the project directory
-cd "lms quiz app"
+# Clone the repository
+git clone https://github.com/codexanjan/nexora-lmz-quiz.git
+cd nexora-lmz-quiz
 
 # Install dependencies
 npm install
@@ -98,50 +202,68 @@ npm install
 
 ### 3. Database Setup & Seeding
 ```bash
-# Push Prisma schema to SQLite database (dev.db)
+# Generate Prisma Client & push schema
+npx prisma generate
 npx prisma db push
 
-# Seed demo users, organizations, courses, lessons, questions, and quizzes
+# Seed demo data
 npx tsx prisma/seed.ts
 ```
 
-### 4. Running the Development Server
+### 4. Run Development Server
 ```bash
 npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
----
-
-## 🧪 Running Automated Tests
-
-Run the complete Vitest test suite:
+### 5. Run Test Suite
 ```bash
-npx vitest run
+npm test
 ```
-Tests verify:
-- **Progress Formula**: Denominator / numerator calculation, rounding, zero-activity edge cases.
-- **Grading Engine**: Single choice exact matching, multiple select exact-set comparison, boolean truth evaluation, short answer normalization (whitespace collapsing, case insensitivity, synonym lists), and essay score bounds.
-- **Authoritative Timing**: Deadline clipping with closing dates and accommodation calculation.
-- **CSV Formula Injection**: Neutralization of dangerous spreadsheet formula characters (`=`, `+`, `-`, `@`).
+All **35 automated unit tests** verify grading algorithms, authoritative timing, progress formulas, CSV formula sanitization, and multilingual dictionary integrity.
 
 ---
 
-## 📚 Technical Documentation Index
+## 📁 Repository Directory Structure
 
-Detailed architectural and operational documentation is available in the `docs/` folder:
-- [Architecture Overview](file:///docs/architecture.md)
-- [Authorization & Permissions](file:///docs/permissions.md)
-- [Course Progress Rules](file:///docs/progress-rules.md)
-- [Server-Authoritative Quiz Timing](file:///docs/quiz-timing.md)
-- [Grading Engine & Revisions](file:///docs/grading.md)
-- [Notifications & Outbox Pipeline](file:///docs/notifications.md)
-- [Security & Hardening](file:///docs/security.md)
-- [Production Deployment Guide](file:///docs/deployment.md)
-- [Database Backup & Restore](file:///docs/backup-restore.md)
+```
+├── app/
+│   ├── (auth)/                 # Login & Registration flows
+│   ├── admin/                  # Audit log, health, users, overview
+│   ├── api/                    # Route handlers (grading, attempts, courses, auth)
+│   ├── student/                # Courses, lessons, quizzes, results, pulse
+│   └── teacher/                # Courses, question bank, quiz builder, submissions, gradebook
+├── components/
+│   ├── layout/                 # Global navbar, sidebar, command palette, app-shell
+│   └── ui/                     # Badge, button, modal, card, language-selector
+├── docs/                       # Architectural specifications & security rules
+├── lib/
+│   ├── auth/                   # Session & password security
+│   ├── db/                     # Prisma singleton client
+│   ├── i18n/                   # Multi-language translations & React context
+│   └── services/               # Grading, progress, timing, learning-pulse, nextstep
+├── prisma/
+│   ├── schema.prisma           # Relational multi-tenant schema
+│   └── seed.ts                 # Full demo dataset
+├── public/images/              # Architectural SVGs & hero banner
+└── tests/unit/                 # Vitest test suite (35 passing tests)
+```
 
 ---
 
-## 🌐 Brand End State
+## 🛡️ Security & Hardening Highlights
+
+- **Formula Injection Mitigation**: Spreadsheet exports automatically prepend dangerous leading formula operators (`=`, `+`, `-`, `@`) with a single apostrophe (`'`).
+- **Cryptographic Session Tokens**: 256-bit cryptographically random tokens stored in database sessions with strict expiry.
+- **Tenant Scoping**: All queries require an `organizationId` filter derived from the authenticated membership.
+- **Immutable Version Snapshots**: Quizzes and Questions create point-in-time version records upon publishing; future edits do not mutate historical attempt data.
+
+---
+
+<div align="center">
+
 **NEXORA LEARN**  
-*Learn smarter. Understand deeper. Progress with purpose.*
+*Learn smarter. Practice better. Know what to do next.*  
+Published at [codexanjan/nexora-lmz-quiz](https://github.com/codexanjan/nexora-lmz-quiz)
+
+</div>

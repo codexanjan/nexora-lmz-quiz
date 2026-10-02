@@ -16,7 +16,9 @@ import {
   ArrowRight,
   MessageSquare,
   RotateCcw,
-  AlertCircle,
+  BookOpen,
+  Tag,
+  HelpCircle,
 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +46,9 @@ export default async function StudentResultDetailPage({
       quizVersion: true,
       questionSnapshots: {
         orderBy: { orderIndex: "asc" },
+        include: {
+          questionVersion: true,
+        },
       },
       answers: true,
       gradeRevisions: {
@@ -58,15 +63,34 @@ export default async function StudentResultDetailPage({
   const isReleased = attempt.status === "RELEASED";
   const isAwaitingGrading = attempt.status === "AWAITING_GRADING";
 
+  // Check if student has remaining attempts for this quiz
+  const accommodation = await prisma.quizAccommodation.findUnique({
+    where: { quizId_studentId: { quizId: attempt.quizId, studentId: user.id } },
+  });
+  const maxAttempts = (attempt.quizVersion.maxAttempts || 1) + (accommodation?.extraAttempts || 0);
+  const totalCompletedAttempts = await prisma.attempt.count({
+    where: { quizId: attempt.quizId, studentId: user.id },
+  });
+  const attemptsRemaining = Math.max(0, maxAttempts - totalCompletedAttempts);
+
   return (
     <AppShell user={user}>
       <div className="max-w-4xl mx-auto space-y-8 pb-16">
-        <Link
-          href="/student/results"
-          className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" /> All Assessment Results
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <Link
+            href="/student/results"
+            className="inline-flex items-center gap-1.5 text-xs text-text-muted hover:text-text-primary transition-colors"
+          >
+            <ChevronLeft className="w-4 h-4" /> All Assessment Results
+          </Link>
+
+          <Link
+            href={`/student/courses/${attempt.quiz.courseId}`}
+            className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline transition-colors"
+          >
+            <BookOpen className="w-3.5 h-3.5" /> Back to {attempt.quiz.course.title} Syllabus
+          </Link>
+        </div>
 
         {/* Results Hero Card */}
         <div className="p-8 rounded-3xl glass-card border border-white/10 space-y-6">
@@ -118,19 +142,38 @@ export default async function StudentResultDetailPage({
             </div>
           )}
 
-          {/* Quick ReviewLoop action */}
-          {isReleased && (
-            <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-              <span className="text-xs text-text-secondary">
-                Missed questions have been automatically organized into your ReviewLoop™ queue.
-              </span>
-              <Link href="/student/learning-pulse">
-                <Button size="sm" variant="secondary">
-                  <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> Open ReviewLoop™
+          {/* Connected Actions Bar */}
+          <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <span className="text-xs text-text-secondary">
+              {isReleased
+                ? "Missed questions are categorized in your ReviewLoop™ queue for remediation."
+                : "Results are locked until manual evaluation is completed."}
+            </span>
+
+            <div className="flex items-center gap-2">
+              {isReleased && (
+                <Link href="/student/learning-pulse">
+                  <Button size="sm" variant="secondary">
+                    <RotateCcw className="w-3.5 h-3.5 mr-1.5" /> Open ReviewLoop™
+                  </Button>
+                </Link>
+              )}
+
+              {attemptsRemaining > 0 && (
+                <Link href={`/student/quizzes/${attempt.quizId}`}>
+                  <Button size="sm" variant="outline">
+                    <HelpCircle className="w-3.5 h-3.5 mr-1.5" /> Retake ({attemptsRemaining} remaining)
+                  </Button>
+                </Link>
+              )}
+
+              <Link href={`/student/courses/${attempt.quiz.courseId}`}>
+                <Button size="sm" variant="primary">
+                  <BookOpen className="w-3.5 h-3.5 mr-1.5" /> Continue Syllabus
                 </Button>
               </Link>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Question-by-Question Breakdown (if released) */}
@@ -143,6 +186,15 @@ export default async function StudentResultDetailPage({
                 const answer = attempt.answers.find((a) => a.questionVersionId === snapshot.questionVersionId);
                 const isCorrect = answer?.isCorrect;
                 const pointsEarned = answer?.pointsEarned ?? 0;
+
+                let tagsArray: string[] = [];
+                if (snapshot.questionVersion?.tags) {
+                  try {
+                    tagsArray = JSON.parse(snapshot.questionVersion.tags);
+                  } catch {
+                    tagsArray = snapshot.questionVersion.tags.split(",").map((t) => t.trim());
+                  }
+                }
 
                 return (
                   <Card key={snapshot.id} className="p-6 space-y-4">
@@ -164,6 +216,22 @@ export default async function StudentResultDetailPage({
                     <p className="text-sm font-medium text-text-primary leading-relaxed">
                       {snapshot.prompt}
                     </p>
+
+                    {/* Concept Tags if available */}
+                    {tagsArray.length > 0 && (
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <Tag className="w-3 h-3 text-text-muted" />
+                        <span className="text-[10px] text-text-muted font-mono">Concept:</span>
+                        {tagsArray.map((t) => (
+                          <span
+                            key={t}
+                            className="px-2 py-0.5 rounded bg-primary/10 border border-primary/20 text-[10px] text-cyan-300 font-mono"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     {/* Student Response */}
                     <div className="p-3.5 rounded-xl bg-surface/80 border border-white/10 space-y-1 text-xs">

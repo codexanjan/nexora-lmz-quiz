@@ -333,3 +333,13 @@ Designed & Built with Next.js 14 App Router, TypeScript, Tailwind CSS, Prisma, a
 Open Source under the [MIT License](LICENSE).
 
 </div>
+
+---
+
+<div align="center">
+
+Made with ❤️ by [Anjan Shetty](https://github.com/codexanjan)
+
+[![GitHub](https://img.shields.io/badge/GitHub-codexanjan-181717?style=flat&logo=github)](https://github.com/codexanjan)
+
+</div>
